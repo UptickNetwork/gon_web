@@ -2,39 +2,40 @@
   <div v-loading.fullscreen.lock="fullscreenLoading" class="dashboard-editor-container">
 
     <panel-group :group-data="groupData" />
-
-    <div class="totalList ">
-      <div class="list" v-for="(item, index1) in chainListInfo" :key="index1">
-        <div v-if="item.sourceChannel != null">
-          <div style="background-color: #6f58d9; height: 50px; padding-left: 20px; padding-top: 15px; color: white;">
-            {{ getMap(item.sourceChannel) }} -> {{getMap(item.destinationchannel)}}
+    <el-scrollbar style="height: 800px" wrap-class="scrollbar-wrapper">
+      <div class="infinite-list" v-infinite-scroll="loadMore" infinite-scroll-delay="1000">
+        <div class="list" v-for="(item, index1) in chainListInfo" :key="index1">
+          <div v-if="item.sourceChannel != null">
+            <div style="background-color: #6f58d9; height: 50px; padding-left: 20px; padding-top: 15px; color: white;">
+              {{ getMap(item.sourceChannel) }} -> {{getMap(item.destinationchannel)}}
+            </div>
+            <el-row>
+              <el-col :span="12" style="padding: 20px;">
+                <div class="chainName">From</div>
+                <!-- <div class="chain-id mt-3 mb-3">{{ item.sourceChainId  }}</div> -->
+                <div class="title-font-12">Channel:{{ item.sourceChannel }}</div>
+                <div class="title-font-12">ClassID:{{ item.sourceClassID }}</div>
+                <div class="title-font-12">Height:{{ item.sourceHeight }}</div>
+                <div class="title-font-12">Port:{{ item.sourcePort }}</div>
+                <div class="title-font-12">Time:{{ item.sourceTime }}</div>
+                <div class="title-font-12">Txid:{{ item.sourceTxid }}</div>
+              </el-col>
+              <el-col :span="12" style="padding: 20px;">
+                <div class="chainName">To</div>
+                <!-- <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div> -->
+                <div class="title-font-12">Channel:{{ item.destinationchannel }}</div>
+                <div class="title-font-12">ClassID:{{ item.destinationClassID }}</div>
+                <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
+                <div class="title-font-12">Port:{{ item.destinationPort }}</div>
+                <div class="title-font-12">Time:{{ item.destinationTime }}</div>
+                <div class="title-font-12">Txid:{{ item.destinationTxid }}</div>
+              </el-col>
+            </el-row>
           </div>
-          <el-row>
-            <el-col :span="12" style="padding: 20px;">
-              <div class="chainName">From</div>
-              <!-- <div class="chain-id mt-3 mb-3">{{ item.sourceChainId  }}</div> -->
-              <div class="title-font-12">Channel:{{ item.sourceChannel }}</div>
-              <div class="title-font-12">ClassID:{{ item.sourceClassID }}</div>
-              <div class="title-font-12">Height:{{ item.sourceHeight }}</div>
-              <div class="title-font-12">Port:{{ item.sourcePort }}</div>
-              <div class="title-font-12">Time:{{ item.sourceTime }}</div>
-              <div class="title-font-12">Txid:{{ item.sourceTxid }}</div>
-            </el-col>
-            <el-col :span="12" style="padding: 20px;">
-              <div class="chainName">To</div>
-              <!-- <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div> -->
-              <div class="title-font-12">Channel:{{ item.destinationchannel }}</div>
-              <div class="title-font-12">ClassID:{{ item.destinationClassID }}</div>
-              <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
-              <div class="title-font-12">Port:{{ item.destinationPort }}</div>
-              <div class="title-font-12">Time:{{ item.destinationTime }}</div>
-              <div class="title-font-12">Txid:{{ item.destinationTxid }}</div>
-            </el-col>
-          </el-row>
         </div>
       </div>
-    </div>
-
+    </el-scrollbar>
+     <!-- <div v-if="fullscreenLoading">正在加载中...</div> -->
     <!--    <el-pagination background layout="prev, pager, next" @size-change="handleSizeChange"
       @current-change="handleCurrentChange" :page-size="20" :total="100">
     </el-pagination> -->
@@ -62,7 +63,7 @@
     },
     data() {
       return {
-        count: 10,
+        page: 1,
         fullscreenLoading: false,
         groupData: {},
         packageInfoMap: {},
@@ -71,7 +72,7 @@
     },
     mounted() {
       this.getDashboradHome()
-      this.getIBCTransactionList()
+      // this.getIBCTransactionList()
       this.initMap()
 
     },
@@ -85,30 +86,29 @@
       }
     },
     methods: {
-      load() {
-        this.count += 2
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+      loadMore() {
+        console.log("loadmore")
+        this.page += 1
+        this.getIBCTransactionList()
+
       },
       getIBCTransactionList() {
         const params = {
-          page: 1,
-          size: 10
+          page: this.page,
+          size: 50
         }
+        this.fullscreenLoading = true
         getIBCTransactionList(params).then(response => {
           this.fullscreenLoading = false
           console.log(response.data)
-          this.chainListInfo = response.data
+          this.chainListInfo = this.chainListInfo.concat(response.data)
+          console.log(this.chainListInfo)
         })
       },
       getDashboradHome() {
-        this.fullscreenLoading = true
+        // this.fullscreenLoading = true
         getDashboradHome().then(response => {
-          this.fullscreenLoading = false
+          // this.fullscreenLoading = false
           console.log(response.data)
           this.groupData = response.data
         })
@@ -213,9 +213,12 @@
 
   .title-font-12 {
     padding-top: 10px;
-    white-space: nowrap;  /* 禁止文本换行 */
-    overflow: hidden;     /* 隐藏溢出部分 */
-    text-overflow: ellipsis; /* 在结尾处添加省略号 */
+    white-space: nowrap;
+    /* 禁止文本换行 */
+    overflow: hidden;
+    /* 隐藏溢出部分 */
+    text-overflow: ellipsis;
+    /* 在结尾处添加省略号 */
     margin-right: 20px;
     margin-top: 2px;
     font-family: Helvetica;
