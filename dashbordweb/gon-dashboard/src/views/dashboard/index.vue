@@ -20,7 +20,6 @@ export default {
     ])
   },
   mounted() {
-    console.log(112232344)
     this.getDashboradHome()
   },
   methods: {

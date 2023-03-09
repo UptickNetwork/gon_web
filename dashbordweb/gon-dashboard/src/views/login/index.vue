@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+<!--  <div class="login-container">
     <el-form
       ref="loginForm"
       :model="loginForm"
@@ -61,7 +61,7 @@
       </div>
 
     </el-form>
-  </div>
+  </div> -->
 </template>
 
 <script>
