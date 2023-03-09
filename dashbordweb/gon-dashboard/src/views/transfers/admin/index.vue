@@ -3,13 +3,20 @@
 
     <panel-group :group-data="groupData" @handleSetLineChartData="handleSetLineChartData" />
 
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <div class="card-panel-text">
-        {{ lineTitle }}
-      </div>
-      <line-chart :chart-data="lineChartData" :date-list="dateList" />
-    </el-row>
+ <el-card class="box-card">
+   <div v-for="item in tableData" :key="item.id" class="text item">
+     <div style="background-color: slateblue; height: 50px;">
+       {{ item.sourceChainId }} -> {{ item.sourceChainId }}
+     </div>
+     <div style="background-color: white">
+       {{ item.sourceChainId }} -> {{ item.sourceChainId }}
+     </div>
+   </div>
+ </el-card>
 
+    <!--    <el-pagination background layout="prev, pager, next" @size-change="handleSizeChange"
+      @current-change="handleCurrentChange" :page-size="20" :total="100">
+    </el-pagination> -->
   </div>
 </template>
 
@@ -34,19 +41,10 @@
     },
     data() {
       return {
+        count: 10,
         fullscreenLoading: false,
-        dateValue: '',
-        lineChartData: {},
         groupData: {},
-        infoData: {},
-        dateList: [],
-        lineTitle: 'Users',
-        dateTitle: 'EVM',
-        pickerOptions: {
-          disabledDate(time) {
-            return time.getTime() > Date.now()
-          }
-        }
+        tableData: []
       }
     },
     mounted() {
@@ -54,6 +52,15 @@
       this.getIBCTransactionList()
     },
     methods: {
+      load() {
+        this.count += 2
+      },
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+      },
       getIBCTransactionList() {
         const params = {
           page: 1,
@@ -62,7 +69,7 @@
         getIBCTransactionList(params).then(response => {
           this.fullscreenLoading = false
           console.log(response.data)
-          // this.groupData = response.data
+          this.tableData = response.data
         })
       },
       getDashboradHome() {

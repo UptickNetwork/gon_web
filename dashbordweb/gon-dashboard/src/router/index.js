@@ -55,15 +55,15 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/peoples',
+    path: '/accounts',
     component: Layout,
-    redirect: '/peoples',
+    redirect: '/accounts',
     children: [
       {
-        path: 'peoples',
-        name: 'Peoples',
-        component: () => import('@/views/peoples/index'),
-        meta: { title: 'Peoples' }
+        path: 'accounts',
+        name: 'Accounts',
+        component: () => import('@/views/accounts/index'),
+        meta: { title: 'Accounts' }
       }
     ]
   },
