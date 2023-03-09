@@ -61,7 +61,7 @@
               </div>
             </div>
           </div>
-          <button class="btn" @click="search">Search</button>
+          <button class="btn" @click="search">Search </button>
         </div>
       </div>
       <div class="line"></div>
@@ -76,13 +76,17 @@
           />
           <div class="contants">
             <div class="hash">
-              3CAE06D2AF60F79CF3E918BC71EDCBB980D273861915EFB43087C
+              {{analyzeinfo.ibcClassId}}
             </div>
             <div class="result">Analysis results：</div>
             <div class="denomid mt-2">
-              demon_id:cat path:nft-transfer/channel-13
+              demon_id:{{analyzeinfo.classId}} path:{{analyzeinfo.sourcePort}}/{{analyzeinfo.sourceChannel}} -> {{analyzeinfo.destinationchannel}}
             </div>
-            <button class="copy mt-4">Search</button>
+            <button class="copy mt-4" @click="copyBtn">Copy</button>
+            <v-alert
+                type="success"
+                v-if="isShowAlert"
+              > Copy Success</v-alert>
           </div>
         </div>
       </div>
@@ -90,23 +94,20 @@
            <div class="list"  v-for="(item, index1) in chainListInfo"
           :key="index1">
         <div class="title d-flex flex-row align-center mt-5">
-          <img src="@/assets/image/image_jt_t.png" alt="" @click="listClicked(index1)" />
-          <!-- <img  src="@/assets/image/image_jt_d.png" alt="" @click="txClicked" v-else> -->
-          <div class="chainName ml-4">Uptick</div>
+          <img src="@/assets/image/image_jt_d.png" alt="" @click="listClicked(item,index1)" v-if="item.isShow" />
+          <img  src="@/assets/image/image_jt_t.png" alt="" @click="listClicked(item,index1)" v-else>
+          <div class="chainName ml-4">{{getMap(item.sourceChannel)}} </div>
           <img class="ml-3 img_jt" src="@/assets/image/image_jt.png" alt="" />
-          <div class="chainName ml-4">iris</div>
-          <img class="ml-3 img_jt" src="@/assets/image/image_jt.png" alt="" />
-          <div class="chainName ml-4">Stargaze</div>
+          <div class="chainName ml-4">{{getMap(item.destinationchannel)}}</div>
+         
         </div>
         <div
-          class="listContant d-flex flex-column"  
+         class="listContant d-flex flex-column"  
         >
           <div
             class="baseInfo d-flex flex-column"
-           
-          >
-         
-             
+            v-if="item.isShow"
+          >  
             <div class=" d-flex flex-row " style=" background-color: rgb(255, 255, 255, 0.2);height: 260px;">
                <div class="left">
                 <div class="chainName">From</div>
@@ -140,16 +141,19 @@
      
     </div>
   </div>
+  
 </template>
 
 <script>
-import {myFocus} from "../../api/home";
+import {getChainListInfo,getAnalyzeInfo} from "../../api/home";
 export default {
   name: "Home",
 
   components: {},
 
   data: () => ({
+    isShowAlert:false,
+    share_id:0,
     listIndex:0,
     height: "",
     chainIndex: 0,
@@ -194,53 +198,10 @@ export default {
         value: 5,
       },
     ],
-
-    chainListInfo:{
-        // list:[
-        //     {
-        //         infolist:[
-        //            {
-        //             chainId: "7777",
-        //             gon: "gon-irishub-1",
-        //             uptick: "uptick_7000-2",
-        //             elgafar: "elgafar-1",
-        //             uni: "uni-6",
-        //             osmo: "osmo-test-4",
-        //             trunnel: "trunnel_no:channel-7",
-        //             port: "port_id:nft-transfer",
-        //             },
-        //              {
-        //             chainId: "7777",
-        //             gon: "gon-irishub-1",
-        //             uptick: "uptick_7000-2",
-        //             elgafar: "elgafar-1",
-        //             uni: "uni-6",
-        //             osmo: "osmo-test-4",
-        //             trunnel: "trunnel_no:channel-7",
-        //             port: "port_id:nft-transfer",
-        //             },
-        //         ]
-        //     },
-        //     //  {
-        //     //     infolist:[
-        //     //        {
-        //     //         chainId: "7777",
-        //     //         gon: "gon-irishub-1",
-        //     //         uptick: "uptick_7000-2",
-        //     //         elgafar: "elgafar-1",
-        //     //         uni: "uni-6",
-        //     //         osmo: "osmo-test-4",
-        //     //         trunnel: "trunnel_no:channel-7",
-        //     //         port: "port_id:nft-transfer",
-        //     //         },
-        //     //     ]
-        //     // }
-            
-        // ]
-
-    },
-
-   
+    analyzeinfo:{},
+    chainListInfo:{ },
+    packageInfoMap:{}
+  
   }),
   mounted() {
     this.getHeight();
@@ -248,9 +209,7 @@ export default {
       this.getHeight();
     };
   
-
-    //   div.setProperty('color', 'green');
-    //   console.log('ssss',div);
+  this.initMap();
   },
     filters: {
       addfilter: function(value) {
@@ -264,30 +223,49 @@ export default {
 
   watch: {
     height() {
-      console.log("ssssss");
       this.getHeight();
     },
   },
 
   methods: {
+    getMap(key){
+      return this.packageInfoMap.get(key)
+    },
+
+    copyBtn(){
+        var input = document.createElement("input");
+      input.value ='demon_id:'+this.analyzeinfo.classId+'path:'+this.analyzeinfo.sourcePort+'/'+this.analyzeinfo.sourceChannel + '->'+this.analyzeinfo.destinationchannel 
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+       this.isShowAlert = true;
+           setTimeout(() => {
+              this.isShowAlert = false;
+           }, 1000);
+    },
    async search(){
      let params = {
        chainId:this.chainList[this.chainIndex].text,
        txid:this.inputValue
      }
-    let result =  await myFocus(params);
+    let result =  await getChainListInfo(params);
      this.chainListInfo = result.data.data
+     this.chainListInfo.forEach(element => {
+      element.isShow = true
+       
+     });
     console.log('this.chainListInfo',this.chainListInfo);
-
     },
-    listClicked(index){
-      console.log('listClicked',this.listIndex,index);
+    listClicked(item,index){
+      console.log('this.chainListInfo',index );
+     this.chainListInfo[index].isShow = !item.isShow
+      console.log('listClicked',item);
+       this.$forceUpdate();
+     
     },
     getHeight() {
       this.height = document.body.clientHeight - 240;
-      console.log("ssss", this.chainListInfo);
-      //   document.getElementsByClassName('list').setAttribute("style",'height:10px')
-
       var div = document.querySelector(".totalList");
       div.style.height = this.height + "px";
     },
@@ -297,8 +275,18 @@ export default {
     chainClicked() {
       this.isShowChain = !this.isShowChain;
     },
-    Analyze() {
-      this.isShowResult = !this.isShowResult;
+   async Analyze() {
+       this.isShowResult = true;
+    let analyzeParams = {
+        ibcClassId:this.analyzeValue
+      }
+      let analyzeinfo =  await getAnalyzeInfo(analyzeParams);
+      if(analyzeinfo){
+           this.analyzeinfo = analyzeinfo.data.data
+          
+      }
+   
+      console.log('sssss',this.analyzeinfo);
     },
     closeClick() {
       this.isShowResult = false;
@@ -310,6 +298,49 @@ export default {
     txClick(index) {
       this.isShowTx = false;
       this.txIndex = index;
+    },
+      initMap(){
+       this.packageInfoMap = new Map([
+        ['channel-22', 'IRISnet'],
+        ['channel-23', 'IRISnet'],
+        ['channel-24', 'IRISnet'],
+        ['channel-25', 'IRISnet'],
+        ['channel-17', 'IRISnet'],
+        ['channel-19', 'IRISnet'],
+        ['channel-0', 'IRISnet'],
+        ['channel-1', 'IRISnet'],
+        ['channel-207', 'Stargaze'],
+        ['channel-208', 'Stargaze'],
+        ['channel-211', 'Stargaze'],
+        ['channel-213', 'Stargaze'],
+        ['channel-203', 'Stargaze'],
+        ['channel-206', 'Stargaze'],
+        ['channel-209', 'Stargaze'],
+        ['channel-210', 'Stargaze'],
+        ['channel-89', 'Juno'],
+        ['channel-90', 'Juno'],
+        ['channel-93', 'Juno'],
+        ['channel-94', 'Juno'],
+        ['channel-86', 'Juno'],
+        ['channel-88', 'Juno'],
+        ['channel-91', 'Juno'],
+        ['channel-92', 'Juno'],
+        ['channel-3', 'Uptick'],
+        ['channel-4', 'Uptick'],
+        ['channel-6', 'Uptick'],
+        ['channel-12', 'Uptick'],
+        ['channel-7', 'Uptick'],
+        ['channel-13', 'Uptick'],
+        ['channel-24', 'Omniflix'],
+        ['channel-25', 'Omniflix'],
+        ['channel-44', 'Omniflix'],
+        ['channel-45', 'Omniflix'],
+        ['channel-46', 'Omniflix'],
+        ['channel-47', 'Omniflix'],
+        ['channel-41', 'Omniflix'],
+        ['channel-42', 'Omniflix'],
+    ]);
+
     },
   },
 };
@@ -534,7 +565,7 @@ img {
       width: 775px;
 
       border-radius: 5px;
-
+      margin-bottom: 15px;
 
       .baseInfo {
         width: 100%;

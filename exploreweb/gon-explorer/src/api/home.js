@@ -3,7 +3,12 @@ const service = axios.create({
     timeout: 300000,
   });
 
-export function myFocus(params) {
+export function getAnalyzeInfo(params) {
+    return service.post('/uptickevmapi/analyzeClass', 
+        transObjToParamStr(params)
+    )
+}
+export function getChainListInfo(params) {
     return service.post('/uptickevmapi/getCrossChainListByTxid', 
         transObjToParamStr(params)
     )
