@@ -2,43 +2,56 @@
   <div v-loading.fullscreen.lock="fullscreenLoading" class="dashboard-editor-container">
 
     <panel-group :group-data="groupData" />
-    <el-scrollbar style="height: 800px" wrap-class="scrollbar-wrapper">
-      <div class="infinite-list" v-infinite-scroll="loadMore" infinite-scroll-delay="1000">
-        <div class="list" v-for="(item, index1) in chainListInfo" :key="index1">
-          <div v-if="item.sourceChannel != null">
-            <div style="background-color: #6f58d9; height: 50px; padding-left: 20px; padding-top: 15px; color: white;">
-              {{ getMap(item.sourceChannel) }} -> {{getMap(item.destinationchannel)}}
-            </div>
-            <el-row>
-              <el-col :span="12" style="padding: 20px;">
-                <div class="chainName">From</div>
-                <!-- <div class="chain-id mt-3 mb-3">{{ item.sourceChainId  }}</div> -->
-                <div class="title-font-12">Channel:{{ item.sourceChannel }}</div>
-                <div class="title-font-12">ClassID:{{ item.sourceClassID }}</div>
-                <div class="title-font-12">Height:{{ item.sourceHeight }}</div>
-                <div class="title-font-12">Port:{{ item.sourcePort }}</div>
-                <div class="title-font-12">Time:{{ item.sourceTime }}</div>
-                <div class="title-font-12">Txid:{{ item.sourceTxid }}</div>
-              </el-col>
-              <el-col :span="12" style="padding: 20px;">
-                <div class="chainName">To</div>
-                <!-- <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div> -->
-                <div class="title-font-12">Channel:{{ item.destinationchannel }}</div>
-                <div class="title-font-12">ClassID:{{ item.destinationClassID }}</div>
-                <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
-                <div class="title-font-12">Port:{{ item.destinationPort }}</div>
-                <div class="title-font-12">Time:{{ item.destinationTime }}</div>
-                <div class="title-font-12">Txid:{{ item.destinationTxid }}</div>
-              </el-col>
-            </el-row>
+    <el-row type="flex" justify="end" style="padding-bottom: 20px;">
+      <!-- <el-col :span="22"> -->
+      <el-input v-model="input" placeholder="Please input Txid"></el-input>
+      <!-- </el-col> -->
+      <!-- <el-col :span="2" style="margin-left: 10px;"> -->
+      <el-button type="primary" style="background-color: #6f58d9; margin-left: 10px;" @click="searchButtonClick">Search
+      </el-button>
+      <!-- </el-col> -->
+    </el-row>
+    <!-- <el-scrollbar style="height: 800px" wrap-class="scrollbar-wrapper"> -->
+    <div>
+      <div class="list" v-for="(item, index1) in chainListInfo" :key="index1">
+        <div v-if="item.sourceChannel != null">
+          <div style="background-color: #6f58d9; height: 50px; padding-left: 20px; padding-top: 15px; color: white;">
+            {{ getMap(item.sourceChannel) }} -> {{getMap(item.destinationchannel)}}
           </div>
+          <el-row>
+            <el-col :span="12" style="padding: 20px;">
+              <div class="chainName">From</div>
+              <!-- <div class="chain-id mt-3 mb-3">{{ item.sourceChainId  }}</div> -->
+              <div class="title-font-12">Channel:{{ item.sourceChannel }}</div>
+              <div class="title-font-12">ClassID:{{ item.sourceClassID }}</div>
+              <div class="title-font-12">Height:{{ item.sourceHeight }}</div>
+              <div class="title-font-12">Port:{{ item.sourcePort }}</div>
+              <div class="title-font-12">Time:{{ item.sourceTime }}</div>
+              <div class="title-font-12">Txid:{{ item.sourceTxid }}</div>
+            </el-col>
+            <el-col :span="12" style="padding: 20px;">
+              <div class="chainName">To</div>
+              <!-- <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div> -->
+              <div class="title-font-12">Channel:{{ item.destinationchannel }}</div>
+              <div class="title-font-12">ClassID:{{ item.destinationClassID }}</div>
+              <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
+              <div class="title-font-12">Port:{{ item.destinationPort }}</div>
+              <div class="title-font-12">Time:{{ item.destinationTime }}</div>
+              <div class="title-font-12">Txid:{{ item.destinationTxid }}</div>
+            </el-col>
+          </el-row>
         </div>
       </div>
-    </el-scrollbar>
-     <!-- <div v-if="fullscreenLoading">正在加载中...</div> -->
-    <!--    <el-pagination background layout="prev, pager, next" @size-change="handleSizeChange"
-      @current-change="handleCurrentChange" :page-size="20" :total="100">
-    </el-pagination> -->
+    </div>
+    <!-- </el-scrollbar> -->
+    <el-row type="flex" justify="end" style="padding-bottom: 20px;">
+      <el-button-group>
+        <el-button type="primary" icon="el-icon-arrow-left" style="background-color: #6f58d9;" @click="lastButtonClick">
+          Last</el-button>
+        <el-button type="primary" style="background-color: #6f58d9;" @click="nextButtonClick">Next<i
+            class="el-icon-arrow-right el-icon--right"></i></el-button>
+      </el-button-group>
+    </el-row>
   </div>
 </template>
 
@@ -63,6 +76,7 @@
     },
     data() {
       return {
+        input: '',
         page: 1,
         fullscreenLoading: false,
         groupData: {},
@@ -72,7 +86,7 @@
     },
     mounted() {
       this.getDashboradHome()
-      // this.getIBCTransactionList()
+      this.getIBCTransactionList()
       this.initMap()
 
     },
@@ -86,14 +100,30 @@
       }
     },
     methods: {
-      loadMore() {
-        console.log("loadmore")
+      searchButtonClick() {
+        console.log(this.input)
+        if (this.input != "") {
+          this.chainListInfo = []
+          this.getIBCTransactionList(this.input)
+        }
+      },
+      lastButtonClick() {
+        if (this.page == 1) {
+          return
+        }
+        document.documentElement.scrollTop = 0;
+        this.page -= 1
+        this.getIBCTransactionList()
+      },
+      nextButtonClick() {
+        document.documentElement.scrollTop = 0;
+
         this.page += 1
         this.getIBCTransactionList()
-
       },
-      getIBCTransactionList() {
+      getIBCTransactionList(search) {
         const params = {
+          search: search,
           page: this.page,
           size: 50
         }
@@ -101,8 +131,7 @@
         getIBCTransactionList(params).then(response => {
           this.fullscreenLoading = false
           console.log(response.data)
-          this.chainListInfo = this.chainListInfo.concat(response.data)
-          console.log(this.chainListInfo)
+          this.chainListInfo = response.data
         })
       },
       getDashboradHome() {
