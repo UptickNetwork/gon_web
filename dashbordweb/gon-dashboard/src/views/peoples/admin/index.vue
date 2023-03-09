@@ -2,29 +2,25 @@
   <div v-loading.fullscreen.lock="fullscreenLoading" class="dashboard-editor-container">
 
     <panel-group :group-data="groupData" @handleSetLineChartData="handleSetLineChartData" />
-
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <div class="card-panel-text">
-        {{ lineTitle }}
-      </div>
-      <line-chart :chart-data="lineChartData" :date-list="dateList" />
-    </el-row>
-
+    <template>
+      <pagination :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+    </template>
   </div>
 </template>
 
 <script>
 import PanelGroup from './components/PanelGroup'
-import LineChart from './components/LineChart'
+import Pagination from './components/Pagination'
 import {
-  getDashboradHome
+  getDashboradHome,
+  getAccountList
 } from '@/api/user'
 
 export default {
-  name: 'DashboardAdmin',
+  name: 'Peoples',
   components: {
     PanelGroup,
-    LineChart
+    Pagination
     // PieChart,
     // BarChart
   },
@@ -34,25 +30,34 @@ export default {
   data() {
     return {
       fullscreenLoading: false,
-      dateValue: '',
       lineChartData: {},
       groupData: {},
       infoData: {},
       dateList: [],
-      lineTitle: 'Users',
-      dateTitle: 'EVM',
-      pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now()
-        }
+      total: 0,
+      listQuery: {
+        page: 1,
+        limit: 20
       }
     }
   },
   mounted() {
     this.getDashboradHome()
+    this.getList()
   },
   methods: {
-
+    getList() {
+      debugger
+      const params = {
+        page: 1,
+        size: 20
+      }
+      getAccountList(params).then(response => {
+        this.fullscreenLoading = false
+        console.log(response.data)
+        this.groupData = response.data
+      })
+    },
     getDashboradHome() {
       this.fullscreenLoading = true
       getDashboradHome().then(response => {
@@ -60,50 +65,6 @@ export default {
         console.log(response.data)
         this.groupData = response.data
       })
-    },
-    setLineData(list, type) {
-      this.lineChartData = {}
-      var lineData = {
-        lineList: []
-      }
-      list.forEach(element => {
-        // console.log(element)
-        // console.log(element[type])
-        // console.log(this.formatDate(element.createTime))
-        lineData.lineList.push(element[type])
-        this.lineChartData = lineData
-      })
-    },
-    formatDate(value, year) {
-      const date = new Date(value) // 这个是纳秒的，想要毫秒的可以不用除以1000000
-      const y = date.getFullYear()
-      let MM = date.getMonth() + 1
-      MM = MM < 10 ? ('0' + MM) : MM
-      let d = date.getDate()
-      d = d < 10 ? ('0' + d) : d
-      // let h = date.getHours()
-      // h = h < 10 ? ('0' + h) : h
-      // let m = date.getMinutes()
-      // m = m < 10 ? ('0' + m) : m
-      // let s = date.getSeconds()
-      // s = s < 10 ? ('0' + s) : s
-      if (year) {
-        return y + '-' + MM + '-' + d
-      }
-      // return y + '.' + MM + '.' + d + ' ' + h + ':' + m + ':' + s;
-      // return MM + '.' + d + ' ' + h + ':' + m + ':' + s;
-      return MM + '-' + d
-      // return h + ':' + m + ':' + s;
-    },
-
-    handleSetLineChartData(type, name) {
-      console.log(type)
-      console.log(name)
-      if (type === '') {
-        return
-      }
-      this.lineTitle = name
-      this.setLineData(this.infoData.list, type)
     }
 
   }

@@ -29,3 +29,19 @@ export function getDashboradHome() {
     method: 'post'
   })
 }
+
+export function getAccountList(params) {
+  return request({
+    url: '/uptickevmapi/dashborad/accountList',
+    method: 'post',
+    params: params
+  })
+}
+
+export function getIBCTransactionList(params) {
+  return request({
+    url: '/uptickevmapi/dashborad/ibcTransactionList',
+    method: 'post',
+    params: params
+  })
+}

@@ -14,100 +14,112 @@
 </template>
 
 <script>
-import PanelGroup from './components/PanelGroup'
-import LineChart from './components/LineChart'
-import {
-  getDashboradHome
-} from '@/api/user'
+  import PanelGroup from './components/PanelGroup'
+  import LineChart from './components/LineChart'
+  import {
+    getDashboradHome,
+    getIBCTransactionList
+  } from '@/api/user'
 
-export default {
-  name: 'DashboardAdmin',
-  components: {
-    PanelGroup,
-    LineChart
-    // PieChart,
-    // BarChart
-  },
-  filters: {
+  export default {
+    name: 'DashboardAdmin',
+    components: {
+      PanelGroup,
+      LineChart
+      // PieChart,
+      // BarChart
+    },
+    filters: {
 
-  },
-  data() {
-    return {
-      fullscreenLoading: false,
-      dateValue: '',
-      lineChartData: {},
-      groupData: {},
-      infoData: {},
-      dateList: [],
-      lineTitle: 'Users',
-      dateTitle: 'EVM',
-      pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now()
+    },
+    data() {
+      return {
+        fullscreenLoading: false,
+        dateValue: '',
+        lineChartData: {},
+        groupData: {},
+        infoData: {},
+        dateList: [],
+        lineTitle: 'Users',
+        dateTitle: 'EVM',
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() > Date.now()
+          }
         }
       }
+    },
+    mounted() {
+      this.getDashboradHome()
+      this.getIBCTransactionList()
+    },
+    methods: {
+      getIBCTransactionList() {
+        const params = {
+          page: 1,
+          size: 20
+        }
+        getIBCTransactionList(params).then(response => {
+          this.fullscreenLoading = false
+          console.log(response.data)
+          // this.groupData = response.data
+        })
+      },
+      getDashboradHome() {
+        this.fullscreenLoading = true
+        getDashboradHome().then(response => {
+          this.fullscreenLoading = false
+          console.log(response.data)
+          this.groupData = response.data
+        })
+      },
+      setLineData(list, type) {
+        this.lineChartData = {}
+        var lineData = {
+          lineList: []
+        }
+        list.forEach(element => {
+          // console.log(element)
+          // console.log(element[type])
+          // console.log(this.formatDate(element.createTime))
+          lineData.lineList.push(element[type])
+          this.lineChartData = lineData
+        })
+      },
+      formatDate(value, year) {
+        const date = new Date(value) // 这个是纳秒的，想要毫秒的可以不用除以1000000
+        const y = date.getFullYear()
+        let MM = date.getMonth() + 1
+        MM = MM < 10 ? ('0' + MM) : MM
+        let d = date.getDate()
+        d = d < 10 ? ('0' + d) : d
+        // let h = date.getHours()
+        // h = h < 10 ? ('0' + h) : h
+        // let m = date.getMinutes()
+        // m = m < 10 ? ('0' + m) : m
+        // let s = date.getSeconds()
+        // s = s < 10 ? ('0' + s) : s
+        if (year) {
+          return y + '-' + MM + '-' + d
+        }
+        // return y + '.' + MM + '.' + d + ' ' + h + ':' + m + ':' + s;
+        // return MM + '.' + d + ' ' + h + ':' + m + ':' + s;
+        return MM + '-' + d
+        // return h + ':' + m + ':' + s;
+      },
+
+      handleSetLineChartData(type, name) {
+        console.log(type)
+        console.log(name)
+        if (type === '') {
+          return
+        }
+        this.lineTitle = name
+        this.setLineData(this.infoData.list, type)
+      }
+
     }
-  },
-  mounted() {
-    this.getDashboradHome()
-  },
-  methods: {
-
-    getDashboradHome() {
-      this.fullscreenLoading = true
-      getDashboradHome().then(response => {
-        this.fullscreenLoading = false
-        console.log(response.data)
-        this.groupData = response.data
-      })
-    },
-    setLineData(list, type) {
-      this.lineChartData = {}
-      var lineData = {
-        lineList: []
-      }
-      list.forEach(element => {
-        // console.log(element)
-        // console.log(element[type])
-        // console.log(this.formatDate(element.createTime))
-        lineData.lineList.push(element[type])
-        this.lineChartData = lineData
-      })
-    },
-    formatDate(value, year) {
-      const date = new Date(value) // 这个是纳秒的，想要毫秒的可以不用除以1000000
-      const y = date.getFullYear()
-      let MM = date.getMonth() + 1
-      MM = MM < 10 ? ('0' + MM) : MM
-      let d = date.getDate()
-      d = d < 10 ? ('0' + d) : d
-      // let h = date.getHours()
-      // h = h < 10 ? ('0' + h) : h
-      // let m = date.getMinutes()
-      // m = m < 10 ? ('0' + m) : m
-      // let s = date.getSeconds()
-      // s = s < 10 ? ('0' + s) : s
-      if (year) {
-        return y + '-' + MM + '-' + d
-      }
-      // return y + '.' + MM + '.' + d + ' ' + h + ':' + m + ':' + s;
-      // return MM + '.' + d + ' ' + h + ':' + m + ':' + s;
-      return MM + '-' + d
-      // return h + ':' + m + ':' + s;
-    },
-
-    handleSetLineChartData(type, name) {
-      console.log(type)
-      console.log(name)
-      if (type === '') {
-        return
-      }
-      this.lineTitle = name
-      this.setLineData(this.infoData.list, type)
-    }
-
   }
-}
 </script>
 
 <style lang="scss" scoped>
