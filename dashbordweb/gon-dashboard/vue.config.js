@@ -37,12 +37,12 @@ module.exports = {
       errors: true
     },
     proxy: {
-      "/uptickevmapi": {
+      "/serviceapi": {
         target: "http://192.168.1.101:7097",
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          "^/uptickevmapi": "/",
+          "^/serviceapi": "/",
         },
       },
     },

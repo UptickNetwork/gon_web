@@ -25,7 +25,7 @@ export function logout() {
 
 export function getDashboradHome() {
   return request({
-    url: '/uptickevmapi/dashborad/home',
+    url: '/serviceapi/dashborad/home',
     method: 'post'
   })
 }
@@ -33,7 +33,7 @@ export function getDashboradHome() {
 export function getNftList(params) {
   debugger
   return request({
-    url: '/uptickevmapi/dashborad/nftList',
+    url: '/serviceapi/dashborad/nftList',
     method: 'post',
     params: params
   })
@@ -42,7 +42,7 @@ export function getNftList(params) {
 
 export function getAccountList(params) {
   return request({
-    url: '/uptickevmapi/dashborad/accountList',
+    url: '/serviceapi/dashborad/accountList',
     method: 'post',
     params: params
   })
@@ -50,7 +50,7 @@ export function getAccountList(params) {
 
 export function getIBCTransactionList(params) {
   return request({
-    url: '/uptickevmapi/dashborad/ibcTransactionList',
+    url: '/serviceapi/dashborad/ibcTransactionList',
     method: 'post',
     params: params
   })
@@ -58,7 +58,7 @@ export function getIBCTransactionList(params) {
 
 // export function getIBCTransactionList(params) {
 //   return request({
-//     url: '/uptickevmapi/dashborad/ibcTransactionList',
+//     url: '/serviceapi/dashborad/ibcTransactionList',
 //     method: 'post',
 //     params: params
 //   })
