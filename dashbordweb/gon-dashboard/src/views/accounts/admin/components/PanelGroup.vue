@@ -35,15 +35,15 @@ export default {
     return {
       lineChartData: [{
         key: 'accounts',
-        name: '人数'
+        name: 'Accounts'
       },
       {
         key: 'tokenIds',
-        name: 'NFT数量'
+        name: 'Number of NFTs'
       },
       {
         key: 'transactions',
-        name: '交易数量'
+        name: 'Cross-chain transfers'
       }
       ]
     }

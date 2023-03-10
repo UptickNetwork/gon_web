@@ -117,7 +117,6 @@ export function param2Obj(url) {
 }
 
 export function timestampToDateTime(time) {
-  debugger
 	let date = new Date(time)
 	let Y = date.getFullYear() + '-';
 	let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';

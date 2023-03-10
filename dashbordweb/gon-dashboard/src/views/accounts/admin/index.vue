@@ -7,13 +7,33 @@
       </el-button>
     </el-row>
     <template>
-      <el-table :data="tableData" style="width: 100%" @cell-click="cellClick">
+      <el-table :data="tableData" style="width: 100%">
         <el-table-column prop="teamName" label="TeamName" />
-        <el-table-column prop="irisAddress" label="IRISnetAddress" />
-        <el-table-column prop="stargazeAddress" label="StargazeAddress" />
-        <el-table-column prop="junoAddress" label="JunoAddress" />
-        <el-table-column prop="uptickAddress" label="UptickAddress" />
-        <el-table-column prop="omniflixAddress" label="OmniFlixAddress" />
+        <el-table-column label="IRISnetAddress">
+          <template slot-scope="scope">
+            <div class="address-style" @click="cellClick(scope.row.irisAddress)">{{ scope.row.irisAddress }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="StargazeAddress">
+          <template slot-scope="scope">
+            <div class="address-style" @click="cellClick(scope.row.stargazeAddress)">{{ scope.row.stargazeAddress }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="JunoAddress">
+          <template slot-scope="scope">
+            <div class="address-style" @click="cellClick(scope.row.junoAddress)">{{ scope.row.junoAddress }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="UptickAddress">
+          <template slot-scope="scope">
+            <div class="address-style" @click="cellClick(scope.row.uptickAddress)">{{ scope.row.uptickAddress }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="OmniFlixAddress">
+          <template slot-scope="scope">
+            <div class="address-style" @click="cellClick(scope.row.omniflixAddress)">{{ scope.row.omniflixAddress }}</div>
+          </template>
+        </el-table-column>
         <el-table-column prop="discordHandle" label="DiscordHandle" />
         <el-table-column prop="community" label="Community" />
       </el-table>
@@ -102,12 +122,12 @@ export default {
         this.groupData = response.data
       })
     },
-    cellClick(rows) {
-      console.log(rows.id)
+    cellClick(address) {
+      console.log(address)
       this.$router.push({
         name: 'AccountDetail',
         params: {
-          userID: rows.id
+          address: address
         }
       })
     }
@@ -117,6 +137,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .address-style {
+      cursor: pointer;
+  }
+
+  .address-style:hover {
+    color: #ff704a;
+  }
+
   .dashboard-editor-container {
     padding: 32px;
     background-color: rgb(240, 242, 245);

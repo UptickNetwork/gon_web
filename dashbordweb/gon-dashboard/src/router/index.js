@@ -84,7 +84,7 @@ export const constantRoutes = [{
         }
       },
       {
-        path: 'accountDetail',
+        path: 'accountDetail/:address',
         name: 'AccountDetail',
         component: () => import('@/views/accounts/accountDetail/index'),
         hidden: true,

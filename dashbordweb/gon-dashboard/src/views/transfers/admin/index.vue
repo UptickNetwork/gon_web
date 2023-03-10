@@ -66,7 +66,7 @@ import {
 } from '@/utils/index'
 
 export default {
-  name: 'DashboardAdmin',
+  name: 'Transfer',
   components: {
     PanelGroup
     // LineChart

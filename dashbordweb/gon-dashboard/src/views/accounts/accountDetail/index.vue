@@ -1,5 +1,11 @@
 <template>
   <div v-loading.fullscreen.lock="fullscreenLoading" class="dashboard-editor-container">
+    <div
+      style="display: flex; justify-content: center; border-radius: 4px; background-color: #1890ff; height: 40px; margin-bottom: 20px; color: white; align-items: center;"
+    >
+      {{ address }}
+    </div>
+
     <div>
       <div v-for="(item, index1) in chainListInfo" :key="index1" class="list">
         <div v-if="item.sourceChannel != null">
@@ -44,21 +50,20 @@ import {
 export default {
   name: 'AccountDetail',
   components: {
-    // PanelGroup,
-    // LineChart
-    // PieChart,
-    // BarChart
+
   },
   data() {
     return {
       fullscreenLoading: false,
       groupData: {},
+      address: '',
       chainListInfo: []
     }
   },
   mounted() {
-    // this.getDashboradHome()
-    this.getIBCTransactionList()
+    console.log(this.$route.params.address)
+    this.address = this.$route.params.address
+    this.getIBCTransactionList(this.address)
     this.initMap()
   },
   methods: {
@@ -66,7 +71,7 @@ export default {
       const params = {
         search: search,
         page: this.page,
-        size: 50
+        size: 1000
       }
       this.fullscreenLoading = true
       getIBCTransactionList(params).then(response => {
