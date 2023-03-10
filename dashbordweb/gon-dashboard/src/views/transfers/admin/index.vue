@@ -3,7 +3,7 @@
 
     <panel-group :group-data="groupData" />
     <el-row type="flex" justify="end" style="padding-bottom: 20px;">
-      <el-input v-model="input" placeholder="Please input Txid" />
+      <el-input v-model="input" placeholder="" />
       <el-button type="primary" style="background-color: #1890ff; margin-left: 10px;" @click="searchButtonClick">Search
       </el-button>
     </el-row>
