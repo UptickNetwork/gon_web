@@ -1,9 +1,31 @@
 <template>
   <div v-loading.fullscreen.lock="fullscreenLoading" class="dashboard-editor-container">
-
-    <panel-group :group-data="groupData" @handleSetLineChartData="handleSetLineChartData" />
+    <panel-group :group-data="groupData" />
+    <el-row type="flex" justify="end" style="padding-bottom: 20px;">
+      <el-input v-model="input" placeholder="Please input Txid" />
+      <el-button type="primary" style="background-color: #1890ff; margin-left: 10px;" @click="searchButtonClick">Search
+      </el-button>
+    </el-row>
     <template>
-      <pagination :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column prop="teamName" label="TeamName" />
+        <el-table-column prop="irisAddress" label="IRISnetAddress" />
+        <el-table-column prop="stargazeAddress" label="StargazeAddress" />
+        <el-table-column prop="junoAddress" label="JunoAddress" />
+        <el-table-column prop="uptickAddress" label="UptickAddress" />
+        <el-table-column prop="omniflixAddress" label="OmniFlixAddress" />
+        <el-table-column prop="discordHandle" label="DiscordHandle" />
+        <el-table-column prop="community" label="Community" />
+      </el-table>
+    </template>
+    <template>
+      <el-row type="flex" justify="space-between" style="padding-bottom: 20px; padding-top: 20px;">
+        <el-button type="primary" icon="el-icon-arrow-left" style="background-color: #1890ff;" @click="lastButtonClick">
+          Last</el-button>
+        <el-button type="primary" style="background-color: #1890ff;" @click="nextButtonClick">Next<i
+          class="el-icon-arrow-right el-icon--right"
+        /></el-button>
+      </el-row>
     </template>
   </div>
 </template>
@@ -30,15 +52,9 @@ export default {
   data() {
     return {
       fullscreenLoading: false,
-      lineChartData: {},
+      input: '',
       groupData: {},
-      infoData: {},
-      dateList: [],
-      total: 0,
-      listQuery: {
-        page: 1,
-        limit: 20
-      }
+      tableData: []
     }
   },
   mounted() {
@@ -46,16 +62,35 @@ export default {
     this.getList()
   },
   methods: {
+    searchButtonClick() {
+      console.log(this.input)
+      if (this.input != '') {
+        this.chainListInfo = []
+        this.getIBCTransactionList(this.input)
+      }
+    },
+    lastButtonClick() {
+      if (this.page == 1) {
+        return
+      }
+      document.documentElement.scrollTop = 0
+      this.page -= 1
+      this.getList()
+    },
+    nextButtonClick() {
+      document.documentElement.scrollTop = 0
+      this.page += 1
+      this.getList()
+    },
     getList() {
-      debugger
       const params = {
-        page: 1,
+        page: this.page,
         size: 20
       }
       getAccountList(params).then(response => {
         this.fullscreenLoading = false
         console.log(response.data)
-        this.groupData = response.data
+        this.tableData = response.data
       })
     },
     getDashboradHome() {

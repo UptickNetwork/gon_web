@@ -3,20 +3,15 @@
 
     <panel-group :group-data="groupData" />
     <el-row type="flex" justify="end" style="padding-bottom: 20px;">
-      <!-- <el-col :span="22"> -->
-      <el-input v-model="input" placeholder="Please input Txid"></el-input>
-      <!-- </el-col> -->
-      <!-- <el-col :span="2" style="margin-left: 10px;"> -->
-      <el-button type="primary" style="background-color: #6f58d9; margin-left: 10px;" @click="searchButtonClick">Search
+      <el-input v-model="input" placeholder="Please input Txid" />
+      <el-button type="primary" style="background-color: #1890ff; margin-left: 10px;" @click="searchButtonClick">Search
       </el-button>
-      <!-- </el-col> -->
     </el-row>
-    <!-- <el-scrollbar style="height: 800px" wrap-class="scrollbar-wrapper"> -->
     <div>
-      <div class="list" v-for="(item, index1) in chainListInfo" :key="index1">
+      <div v-for="(item, index1) in chainListInfo" :key="index1" class="list">
         <div v-if="item.sourceChannel != null">
-          <div style="background-color: #6f58d9; height: 50px; padding-left: 20px; padding-top: 15px; color: white;">
-            {{ getMap(item.sourceChannel) }} -> {{getMap(item.destinationchannel)}}
+          <div style="border-radius: 4px; background-color: #1890ff; height: 40px; padding-left: 20px; padding-top: 10px; color: white;">
+            {{ getMap(item.sourceChannel) }} -> {{ getMap(item.destinationchannel) }}
           </div>
           <el-row>
             <el-col :span="12" style="padding: 20px;">
@@ -44,157 +39,156 @@
       </div>
     </div>
     <!-- </el-scrollbar> -->
-    <el-row type="flex" justify="end" style="padding-bottom: 20px;">
-      <el-button-group>
-        <el-button type="primary" icon="el-icon-arrow-left" style="background-color: #6f58d9;" @click="lastButtonClick">
+    <template>
+      <el-row type="flex" justify="space-between" style="padding-bottom: 20px;">
+        <el-button type="primary" icon="el-icon-arrow-left" style="background-color: #1890ff;" @click="lastButtonClick">
           Last</el-button>
-        <el-button type="primary" style="background-color: #6f58d9;" @click="nextButtonClick">Next<i
-            class="el-icon-arrow-right el-icon--right"></i></el-button>
-      </el-button-group>
-    </el-row>
+        <el-button type="primary" style="background-color: #1890ff;" @click="nextButtonClick">Next<i
+          class="el-icon-arrow-right el-icon--right"
+        /></el-button>
+      </el-row>
+    </template>
+
   </div>
 </template>
 
 <script>
-  import PanelGroup from './components/PanelGroup'
-  import LineChart from './components/LineChart'
-  import {
-    getDashboradHome,
-    getIBCTransactionList
-  } from '@/api/user'
+import PanelGroup from './components/PanelGroup'
+import LineChart from './components/LineChart'
+import {
+  getDashboradHome,
+  getIBCTransactionList
+} from '@/api/user'
 
-  export default {
-    name: 'DashboardAdmin',
-    components: {
-      PanelGroup,
-      LineChart
-      // PieChart,
-      // BarChart
-    },
-    filters: {
+export default {
+  name: 'DashboardAdmin',
+  components: {
+    PanelGroup,
+    LineChart
+    // PieChart,
+    // BarChart
+  },
+  filters: {
 
-    },
-    data() {
-      return {
-        input: '',
-        page: 1,
-        fullscreenLoading: false,
-        groupData: {},
-        packageInfoMap: {},
-        chainListInfo: []
+  },
+  filters: {
+    addfilter: function(value) {
+      if (value && value.length > 40) {
+        return value.substr(0, 15) + '...' + value.substr(-15)
+      } else {
+        return ''
       }
-    },
-    mounted() {
-      this.getDashboradHome()
-      this.getIBCTransactionList()
-      this.initMap()
-
-    },
-    filters: {
-      addfilter: function(value) {
-        if (value && value.length > 40) {
-          return value.substr(0, 15) + "..." + value.substr(-15);
-        } else {
-          return "";
-        }
-      }
-    },
-    methods: {
-      searchButtonClick() {
-        console.log(this.input)
-        if (this.input != "") {
-          this.chainListInfo = []
-          this.getIBCTransactionList(this.input)
-        }
-      },
-      lastButtonClick() {
-        if (this.page == 1) {
-          return
-        }
-        document.documentElement.scrollTop = 0;
-        this.page -= 1
-        this.getIBCTransactionList()
-      },
-      nextButtonClick() {
-        document.documentElement.scrollTop = 0;
-
-        this.page += 1
-        this.getIBCTransactionList()
-      },
-      getIBCTransactionList(search) {
-        const params = {
-          search: search,
-          page: this.page,
-          size: 50
-        }
-        this.fullscreenLoading = true
-        getIBCTransactionList(params).then(response => {
-          this.fullscreenLoading = false
-          console.log(response.data)
-          this.chainListInfo = response.data
-        })
-      },
-      getDashboradHome() {
-        // this.fullscreenLoading = true
-        getDashboradHome().then(response => {
-          // this.fullscreenLoading = false
-          console.log(response.data)
-          this.groupData = response.data
-        })
-      },
-      getMap(key) {
-        // debugger
-        if (key != null) {
-          return this.packageInfoMap.get(key)
-        }
-      },
-      initMap() {
-        this.packageInfoMap = new Map([
-          ['channel-22', 'IRISnet'],
-          ['channel-23', 'IRISnet'],
-          ['channel-24', 'IRISnet'],
-          ['channel-25', 'IRISnet'],
-          ['channel-17', 'IRISnet'],
-          ['channel-19', 'IRISnet'],
-          ['channel-0', 'IRISnet'],
-          ['channel-1', 'IRISnet'],
-          ['channel-207', 'Stargaze'],
-          ['channel-208', 'Stargaze'],
-          ['channel-211', 'Stargaze'],
-          ['channel-213', 'Stargaze'],
-          ['channel-203', 'Stargaze'],
-          ['channel-206', 'Stargaze'],
-          ['channel-209', 'Stargaze'],
-          ['channel-210', 'Stargaze'],
-          ['channel-89', 'Juno'],
-          ['channel-90', 'Juno'],
-          ['channel-93', 'Juno'],
-          ['channel-94', 'Juno'],
-          ['channel-86', 'Juno'],
-          ['channel-88', 'Juno'],
-          ['channel-91', 'Juno'],
-          ['channel-92', 'Juno'],
-          ['channel-3', 'Uptick'],
-          ['channel-4', 'Uptick'],
-          ['channel-6', 'Uptick'],
-          ['channel-12', 'Uptick'],
-          ['channel-7', 'Uptick'],
-          ['channel-13', 'Uptick'],
-          ['channel-24', 'Omniflix'],
-          ['channel-25', 'Omniflix'],
-          ['channel-44', 'Omniflix'],
-          ['channel-45', 'Omniflix'],
-          ['channel-46', 'Omniflix'],
-          ['channel-47', 'Omniflix'],
-          ['channel-41', 'Omniflix'],
-          ['channel-42', 'Omniflix'],
-        ]);
-
-      },
-
-
     }
+  },
+  data() {
+    return {
+      input: '',
+      page: 1,
+      fullscreenLoading: false,
+      groupData: {},
+      packageInfoMap: {},
+      chainListInfo: []
+    }
+  },
+  mounted() {
+    this.getDashboradHome()
+    this.getIBCTransactionList()
+    this.initMap()
+  },
+  methods: {
+    searchButtonClick() {
+      console.log(this.input)
+      if (this.input != '') {
+        this.chainListInfo = []
+        this.getIBCTransactionList(this.input)
+      }
+    },
+    lastButtonClick() {
+      if (this.page == 1) {
+        return
+      }
+      document.documentElement.scrollTop = 0
+      this.page -= 1
+      this.getIBCTransactionList()
+    },
+    nextButtonClick() {
+      document.documentElement.scrollTop = 0
+
+      this.page += 1
+      this.getIBCTransactionList()
+    },
+    getIBCTransactionList(search) {
+      const params = {
+        search: search,
+        page: this.page,
+        size: 50
+      }
+      this.fullscreenLoading = true
+      getIBCTransactionList(params).then(response => {
+        this.fullscreenLoading = false
+        console.log(response.data)
+        this.chainListInfo = response.data
+      })
+    },
+    getDashboradHome() {
+      // this.fullscreenLoading = true
+      getDashboradHome().then(response => {
+        // this.fullscreenLoading = false
+        console.log(response.data)
+        this.groupData = response.data
+      })
+    },
+    getMap(key) {
+      // debugger
+      if (key != null) {
+        return this.packageInfoMap.get(key)
+      }
+    },
+    initMap() {
+      this.packageInfoMap = new Map([
+        ['channel-22', 'IRISnet'],
+        ['channel-23', 'IRISnet'],
+        ['channel-24', 'IRISnet'],
+        ['channel-25', 'IRISnet'],
+        ['channel-17', 'IRISnet'],
+        ['channel-19', 'IRISnet'],
+        ['channel-0', 'IRISnet'],
+        ['channel-1', 'IRISnet'],
+        ['channel-207', 'Stargaze'],
+        ['channel-208', 'Stargaze'],
+        ['channel-211', 'Stargaze'],
+        ['channel-213', 'Stargaze'],
+        ['channel-203', 'Stargaze'],
+        ['channel-206', 'Stargaze'],
+        ['channel-209', 'Stargaze'],
+        ['channel-210', 'Stargaze'],
+        ['channel-89', 'Juno'],
+        ['channel-90', 'Juno'],
+        ['channel-93', 'Juno'],
+        ['channel-94', 'Juno'],
+        ['channel-86', 'Juno'],
+        ['channel-88', 'Juno'],
+        ['channel-91', 'Juno'],
+        ['channel-92', 'Juno'],
+        ['channel-3', 'Uptick'],
+        ['channel-4', 'Uptick'],
+        ['channel-6', 'Uptick'],
+        ['channel-12', 'Uptick'],
+        ['channel-7', 'Uptick'],
+        ['channel-13', 'Uptick'],
+        ['channel-24', 'Omniflix'],
+        ['channel-25', 'Omniflix'],
+        ['channel-44', 'Omniflix'],
+        ['channel-45', 'Omniflix'],
+        ['channel-46', 'Omniflix'],
+        ['channel-47', 'Omniflix'],
+        ['channel-41', 'Omniflix'],
+        ['channel-42', 'Omniflix']
+      ])
+    }
+
   }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -413,7 +407,7 @@
         width: 600px;
         height: 210px;
         background-image: linear-gradient(#ffffff, #ffffff),
-          linear-gradient(#6f58d9, #6f58d9);
+          linear-gradient(#1890ff, #1890ff);
         background-blend-mode: normal, normal;
         box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.09);
         border-radius: 5px;
@@ -510,15 +504,13 @@
           }
         }
 
-
       }
 
     }
 
     .title {
-      background-color: #6f58d9;
+      background-color: #1890ff;
       height: 50px;
-
 
     }
 

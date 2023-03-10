@@ -3,12 +3,13 @@
 
     <panel-group :group-data="groupData" @handleSetLineChartData="handleSetLineChartData" />
 
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <div class="card-panel-text">
-        {{ lineTitle }}
-      </div>
-      <line-chart :chart-data="lineChartData" :date-list="dateList" />
-    </el-row>
+    <template>
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column prop="date" label="日期" width="180" />
+        <el-table-column prop="name" label="姓名" width="180" />
+        <el-table-column prop="address" label="地址" />
+      </el-table>
+    </template>
 
   </div>
 </template>
@@ -17,7 +18,8 @@
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
 import {
-  getDashboradHome
+  getDashboradHome,
+  getNftList
 } from '@/api/user'
 
 export default {
@@ -34,25 +36,43 @@ export default {
   data() {
     return {
       fullscreenLoading: false,
-      dateValue: '',
-      lineChartData: {},
       groupData: {},
-      infoData: {},
-      dateList: [],
-      lineTitle: 'Users',
-      dateTitle: 'EVM',
-      pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now()
-        }
-      }
+      tableData: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1517 弄'
+      }, {
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1519 弄'
+      }, {
+        date: '2016-05-03',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1516 弄'
+      }]
     }
   },
   mounted() {
     this.getDashboradHome()
+    this.getNftList()
   },
   methods: {
-
+    getNftList() {
+      this.fullscreenLoading = true
+      const params = {
+        page: this.page,
+        size: 50
+      }
+      getNftList(params).then(response => {
+        this.fullscreenLoading = false
+        console.log(response.data)
+        // this.groupData = response.data
+      })
+    },
     getDashboradHome() {
       this.fullscreenLoading = true
       getDashboradHome().then(response => {

@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Home',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Home' }
+      meta: { title: 'Home', icon: "dashboard" }
     }]
   },
   {
@@ -63,23 +63,23 @@ export const constantRoutes = [
         path: 'accounts',
         name: 'Accounts',
         component: () => import('@/views/accounts/index'),
-        meta: { title: 'Accounts' }
+        meta: { title: 'Accounts', icon: "user" }
       }
     ]
   },
-  {
-    path: '/nfts',
-    component: Layout,
-    redirect: '/nfts',
-    children: [
-      {
-        path: 'nfts',
-        name: 'NFTs',
-        component: () => import('@/views/nfts/index'),
-        meta: { title: 'NFTs' }
-      }
-    ]
-  },
+  // {
+  //   path: '/nfts',
+  //   component: Layout,
+  //   redirect: '/nfts',
+  //   children: [
+  //     {
+  //       path: 'nfts',
+  //       name: 'NFTs',
+  //       component: () => import('@/views/nfts/index'),
+  //       meta: { title: 'NFTs' }
+  //     }
+  //   ]
+  // },
   {
     path: '/transfers',
     component: Layout,
@@ -89,7 +89,7 @@ export const constantRoutes = [
         path: 'transfers',
         name: 'Transfers',
         component: () => import('@/views/transfers/index'),
-        meta: { title: 'Transfers' }
+        meta: { title: 'Transfers', icon: "table"  }
       }
     ]
   },

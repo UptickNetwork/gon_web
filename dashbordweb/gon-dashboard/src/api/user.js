@@ -30,6 +30,16 @@ export function getDashboradHome() {
   })
 }
 
+export function getNftList(params) {
+  debugger
+  return request({
+    url: '/uptickevmapi/dashborad/nftList',
+    method: 'post',
+    params: params
+  })
+}
+
+
 export function getAccountList(params) {
   return request({
     url: '/uptickevmapi/dashborad/accountList',
