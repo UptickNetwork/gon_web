@@ -7,7 +7,7 @@
       </el-button>
     </el-row>
     <template>
-      <el-table :data="tableData" style="width: 100%">
+      <el-table :data="tableData" style="width: 100%" @cell-click="cellClick">
         <el-table-column prop="teamName" label="TeamName" />
         <el-table-column prop="irisAddress" label="IRISnetAddress" />
         <el-table-column prop="stargazeAddress" label="StargazeAddress" />
@@ -53,6 +53,7 @@ export default {
     return {
       fullscreenLoading: false,
       input: '',
+      page: 1,
       groupData: {},
       tableData: []
     }
@@ -64,10 +65,9 @@ export default {
   methods: {
     searchButtonClick() {
       console.log(this.input)
-      if (this.input != '') {
-        this.chainListInfo = []
-        this.getIBCTransactionList(this.input)
-      }
+      this.chainListInfo = []
+      this.page = 1
+      this.getList(this.input)
     },
     lastButtonClick() {
       if (this.page == 1) {
@@ -82,8 +82,9 @@ export default {
       this.page += 1
       this.getList()
     },
-    getList() {
+    getList(search) {
       const params = {
+        search: search,
         page: this.page,
         size: 20
       }
@@ -99,6 +100,15 @@ export default {
         this.fullscreenLoading = false
         console.log(response.data)
         this.groupData = response.data
+      })
+    },
+    cellClick(rows) {
+      console.log(rows.id)
+      this.$router.push({
+        name: 'AccountDetail',
+        params: {
+          userID: rows.id
+        }
       })
     }
 

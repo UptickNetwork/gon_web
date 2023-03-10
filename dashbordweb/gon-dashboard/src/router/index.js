@@ -30,8 +30,7 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [
-  {
+export const constantRoutes = [{
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
@@ -43,66 +42,105 @@ export const constantRoutes = [
     hidden: true
   },
 
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/dashboard',
+  //   children: [{
+  //     path: 'dashboard',
+  //     name: 'Home',
+  //     component: () => import('@/views/dashboard/index'),
+  //     meta: {
+  //       title: 'Home',
+  //       icon: "dashboard"
+  //     }
+  //   }]
+  // },
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/transfers',
     children: [{
-      path: 'dashboard',
-      name: 'Home',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Home', icon: "dashboard" }
+      path: 'transfers',
+      name: 'Transfers',
+      component: () => import('@/views/transfers/index'),
+      meta: {
+        title: 'Transfers',
+        icon: "table"
+      }
     }]
   },
   {
     path: '/accounts',
     component: Layout,
     redirect: '/accounts',
-    children: [
-      {
+    children: [{
         path: 'accounts',
         name: 'Accounts',
         component: () => import('@/views/accounts/index'),
-        meta: { title: 'Accounts', icon: "user" }
+        meta: {
+          title: 'Accounts',
+          icon: "user"
+        }
+      },
+      {
+        path: 'accountDetail',
+        name: 'AccountDetail',
+        component: () => import('@/views/accounts/accountDetail/index'),
+        hidden: true,
+        meta: {
+          title: 'AccountDetail',
+          // icon: "user"
+        }
       }
     ]
   },
   // {
-  //   path: '/nfts',
+  //   path: '/accountDetail',
   //   component: Layout,
-  //   redirect: '/nfts',
-  //   children: [
-  //     {
-  //       path: 'nfts',
-  //       name: 'NFTs',
-  //       component: () => import('@/views/nfts/index'),
-  //       meta: { title: 'NFTs' }
+  //   redirect: '/accountDetail',
+  //   children: [{
+  //       path: 'accountDetail',
+  //       name: 'AccountsSetail',
+  //       component: () => import('@/views/accounts/accountDetail/index'),
+  //       hidden: true,
+  //       meta: {
+  //         title: 'Accounts',
+  //         icon: "user"
+  //       }
   //     }
   //   ]
   // },
-  {
-    path: '/transfers',
-    component: Layout,
-    redirect: '/transfers',
-    children: [
-      {
-        path: 'transfers',
-        name: 'Transfers',
-        component: () => import('@/views/transfers/index'),
-        meta: { title: 'Transfers', icon: "table"  }
-      }
-    ]
-  },
+  // {
+  //   path: '/nfts',
+  //   component: Layout,
+  //   redirect: '/nfts',
+  //   children: [{
+  //     path: 'nfts',
+  //     name: 'NFTs',
+  //     component: () => import('@/views/nfts/index'),
+  //     meta: {
+  //       title: 'NFTs'
+  //     }
+  //   }]
+  // },
+
 
 
 
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  }
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({
+    y: 0
+  }),
   routes: constantRoutes
 })
 

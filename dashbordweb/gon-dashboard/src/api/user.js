@@ -55,3 +55,11 @@ export function getIBCTransactionList(params) {
     params: params
   })
 }
+
+// export function getIBCTransactionList(params) {
+//   return request({
+//     url: '/uptickevmapi/dashborad/ibcTransactionList',
+//     method: 'post',
+//     params: params
+//   })
+// }

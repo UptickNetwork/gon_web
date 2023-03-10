@@ -1,12 +1,5 @@
 <template>
   <div v-loading.fullscreen.lock="fullscreenLoading" class="dashboard-editor-container">
-
-    <panel-group :group-data="groupData" />
-    <el-row type="flex" justify="end" style="padding-bottom: 20px;">
-      <el-input v-model="input" placeholder="Please input Txid" />
-      <el-button type="primary" style="background-color: #1890ff; margin-left: 10px;" @click="searchButtonClick">Search
-      </el-button>
-    </el-row>
     <div>
       <div v-for="(item, index1) in chainListInfo" :key="index1" class="list">
         <div v-if="item.sourceChannel != null">
@@ -23,7 +16,7 @@
               <div class="title-font-12">ClassID:{{ item.sourceClassID }}</div>
               <div class="title-font-12">Height:{{ item.sourceHeight }}</div>
               <div class="title-font-12">Port:{{ item.sourcePort }}</div>
-              <div class="title-font-12">Time:{{ timestampToDate(item.sourceTime) }}</div>
+              <div class="title-font-12">Time:{{ item.sourceTime }}</div>
               <div class="title-font-12">Txid:{{ item.sourceTxid }}</div>
             </el-col>
             <el-col :span="12" style="padding: 20px;">
@@ -33,97 +26,42 @@
               <div class="title-font-12">ClassID:{{ item.destinationClassID }}</div>
               <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
               <div class="title-font-12">Port:{{ item.destinationPort }}</div>
-              <div class="title-font-12">Time:{{ timestampToDate(item.destinationTime) }}</div>
+              <div class="title-font-12">Time:{{ item.destinationTime }}</div>
               <div class="title-font-12">Txid:{{ item.destinationTxid }}</div>
             </el-col>
           </el-row>
         </div>
       </div>
     </div>
-    <!-- </el-scrollbar> -->
-    <template>
-      <el-row type="flex" justify="space-between" style="padding-bottom: 20px;">
-        <el-button type="primary" icon="el-icon-arrow-left" style="background-color: #1890ff;" @click="lastButtonClick">
-          Last</el-button>
-        <el-button type="primary" style="background-color: #1890ff;" @click="nextButtonClick">Next<i
-          class="el-icon-arrow-right el-icon--right"
-        /></el-button>
-      </el-row>
-    </template>
-
   </div>
 </template>
 
 <script>
-import PanelGroup from './components/PanelGroup'
-// import LineChart from './components/LineChart'
 import {
-  getDashboradHome,
   getIBCTransactionList
 } from '@/api/user'
-import {
-  timestampToDateTime
-} from '@/utils/index'
 
 export default {
-  name: 'DashboardAdmin',
+  name: 'AccountDetail',
   components: {
-    PanelGroup
+    // PanelGroup,
     // LineChart
     // PieChart,
     // BarChart
   },
-  filters: {
-
-  },
-  filters: {
-    addfilter: function(value) {
-      if (value && value.length > 40) {
-        return value.substr(0, 15) + '...' + value.substr(-15)
-      } else {
-        return ''
-      }
-    }
-  },
   data() {
     return {
-      input: '',
-      page: 1,
       fullscreenLoading: false,
       groupData: {},
-      packageInfoMap: {},
       chainListInfo: []
     }
   },
   mounted() {
-    this.getDashboradHome()
+    // this.getDashboradHome()
     this.getIBCTransactionList()
     this.initMap()
   },
   methods: {
-    timestampToDate(value) {
-      return timestampToDateTime(value)
-    },
-    searchButtonClick() {
-      console.log(this.input)
-      this.chainListInfo = []
-      this.page = 1
-      this.getIBCTransactionList(this.input)
-    },
-    lastButtonClick() {
-      if (this.page == 1) {
-        return
-      }
-      document.documentElement.scrollTop = 0
-      this.page -= 1
-      this.getIBCTransactionList()
-    },
-    nextButtonClick() {
-      document.documentElement.scrollTop = 0
-
-      this.page += 1
-      this.getIBCTransactionList()
-    },
     getIBCTransactionList(search) {
       const params = {
         search: search,
@@ -137,14 +75,7 @@ export default {
         this.chainListInfo = response.data
       })
     },
-    getDashboradHome() {
-      // this.fullscreenLoading = true
-      getDashboradHome().then(response => {
-        // this.fullscreenLoading = false
-        console.log(response.data)
-        this.groupData = response.data
-      })
-    },
+
     getMap(key) {
       // debugger
       if (key != null) {
