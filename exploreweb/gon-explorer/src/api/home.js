@@ -4,16 +4,20 @@ const service = axios.create({
   });
 
 export function getAnalyzeInfo(params) {
-    return service.post('/uptickevmapi/analyzeClass', 
+    return service.post('/gonapi/analyzeClass', 
         transObjToParamStr(params)
     )
 }
 export function getChainListInfo(params) {
-    return service.post('/uptickevmapi/getCrossChainListByTxid', 
+    return service.post('/gonapi/getCrossChainListByTxid', 
         transObjToParamStr(params)
     )
 }
-
+export function getInfoByAddress(params) {
+    return service.post('/gonapi/getCrossChainListByAddress', 
+        transObjToParamStr(params)
+    )
+}
 function transObjToParamStr(object) {
    
 let arr=[]

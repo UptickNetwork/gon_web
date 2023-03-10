@@ -66,9 +66,9 @@
       </div>
       <div class="line"></div>
       <div class="analyze d-flex flex-row">
-        <input v-model="analyzeValue" type="text" class="analyzeInput" />
+        <input v-model="analyzeValue" type="text" class="analyzeInput" placeholder="NFT Path Visualization" />
         <button class="btn" @click="Analyze">Analyze</button>
-        <div class="dialog" v-if="isShowResult">
+        <div class="dialog" v-if="isShowResult && analyzeinfo ">
           <img
             src="@/assets/image/image_close.png"
             @click="closeClick"
@@ -90,7 +90,7 @@
           </div>
         </div>
       </div>
-      <div class="totalList ">
+      <div class="totalList " v-show="chainListInfo.length > 0">
            <div class="list"  v-for="(item, index1) in chainListInfo"
           :key="index1">
         <div class="title d-flex flex-row align-center mt-5">
@@ -108,7 +108,7 @@
             class="baseInfo d-flex flex-column"
             v-if="item.isShow"
           >  
-            <div class=" d-flex flex-row " style=" background-color: rgb(255, 255, 255, 0.2);height: 260px;">
+            <div class=" d-flex flex-row " style=" background-color: rgb(255, 255, 255, 0.2);height: 240px;">
                <div class="left">
                 <div class="chainName">From</div>
                 <div class="chain-id mt-3 mb-3">{{ item.sourceChainId  }}</div>
@@ -118,6 +118,8 @@
                 <div class="title-font-12">Port:{{ item.sourcePort | addfilter}}</div>
                 <div class="title-font-12">Time:{{ item.sourceTime }}</div>
                 <div class="title-font-12">Txid:{{ item.sourceTxid | addfilter}}</div>
+                <div class="title-font-12">Sender:{{ item.sender | addfilter}}</div>
+                
               </div>
               <div class="right">
                 <div class="chainName">To</div>
@@ -128,16 +130,18 @@
                 <div class="title-font-12">Port:{{ item.destinationPort | addfilter}}</div>
                 <div class="title-font-12">Time:{{ item.destinationTime }}</div>
                 <div class="title-font-12">Txid:{{ item.destinationTxid | addfilter}}</div>
+                 <div class="title-font-12">Receiver:{{ item.receiver | addfilter}}</div>
               </div>
             </div>
-             
-         
+      
+                 
           </div>
         </div>
 
       
       </div>
       </div>
+      <div class="empty" v-show="chainListInfo.length == 0"> Empty</div>
      
     </div>
   </div>
@@ -145,7 +149,7 @@
 </template>
 
 <script>
-import {getChainListInfo,getAnalyzeInfo} from "../../api/home";
+import {getChainListInfo,getAnalyzeInfo,getInfoByAddress} from "../../api/home";
 export default {
   name: "Home",
 
@@ -198,8 +202,8 @@ export default {
         value: 5,
       },
     ],
-    analyzeinfo:{},
-    chainListInfo:{ },
+    analyzeinfo:'',
+    chainListInfo:[],
     packageInfoMap:{}
   
   }),
@@ -245,11 +249,22 @@ export default {
            }, 1000);
     },
    async search(){
-     let params = {
+     let result, params ;
+     if(this.txList[this.txIndex].text == 'TXID'){
+         params = {
        chainId:this.chainList[this.chainIndex].text,
        txid:this.inputValue
      }
-    let result =  await getChainListInfo(params);
+     result =  await getChainListInfo(params);
+     }else{
+        params = {
+       chainId:this.chainList[this.chainIndex].text,
+       address:this.inputValue
+     }
+     result =  await getInfoByAddress(params);
+       
+     }
+   
      this.chainListInfo = result.data.data
      this.chainListInfo.forEach(element => {
       element.isShow = true
@@ -276,6 +291,7 @@ export default {
       this.isShowChain = !this.isShowChain;
     },
    async Analyze() {
+     this.analyzeinfo = ''
        this.isShowResult = true;
     let analyzeParams = {
         ibcClassId:this.analyzeValue
@@ -347,6 +363,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+ .empty{
+    font-family: Helvetica;
+   font-size: 12px;
+   font-weight: normal;
+  font-stretch: normal;
+   letter-spacing: 1px;
+  color: #ffffff;
+      display: flex;
+     align-self: center;
+    justify-content: center;
+     align-items: center;
+   width: 100%;
+   height: 500px;
+    font-size: 20px;
+ }
 .title-font-12 {
   margin-top: 2px;
   font-family: Helvetica;
@@ -395,12 +426,16 @@ input[class="txInput"] {
   background-color: #ffffff;
   border-radius: 5px;
   margin-left: 34px;
+   font-size: 15px;
+   padding-left: 10px;
 }
 input[class="analyzeInput"] {
   width: 600px;
   height: 36px;
   background-color: #ffffff;
   border-radius: 5px;
+  font-size: 15px;
+  padding-left: 20px;
 }
 
 img {

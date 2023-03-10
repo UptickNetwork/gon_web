@@ -5,16 +5,16 @@ module.exports = defineConfig({
     'vuetify'
   ],
   devServer: {
-    port: 8089,
+    port: 8180,
     open: true,
     https: false,
     proxy: {
-      "/uptickevmapi": {
+      "/gonapi": {
       target: "http://192.168.1.101:7097",
       changeOrigin: true,
       secure: false,
       pathRewrite: {
-        "^/uptickevmapi": "/",
+        "^/gonapi": "/",
       },
     },
 
