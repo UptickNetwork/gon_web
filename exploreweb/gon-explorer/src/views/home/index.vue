@@ -80,7 +80,7 @@
             </div>
             <div class="result">Analysis results：</div>
             <div class="denomid mt-2">
-              demon_id:{{analyzeinfo.classId}} path:{{analyzeinfo.sourcePort}}/{{analyzeinfo.sourceChannel}} -> {{analyzeinfo.destinationchannel}}
+              {{analyzeinfo.classPath}} 
             </div>
             <button class="copy mt-4" @click="copyBtn">Copy</button>
             <v-alert
@@ -108,12 +108,13 @@
             class="baseInfo d-flex flex-column"
             v-if="item.isShow"
           >  
-            <div class=" d-flex flex-row " style=" background-color: rgb(255, 255, 255, 0.2);height: 240px;">
+            <div class=" d-flex flex-row " style=" background-color: rgb(255, 255, 255, 0.2);height: 260px;">
                <div class="left">
                 <div class="chainName">From</div>
                 <div class="chain-id mt-3 mb-3">{{ item.sourceChainId  }}</div>
                 <div class="title-font-12">Channel:{{ item.sourceChannel }}</div>
                 <div class="title-font-12">ClassID:{{ item.sourceClassID | addfilter }}</div>
+                 <div class="title-font-12">ClassPath:{{ item.sourceClassPath | addfilter }}</div>
                 <div class="title-font-12">Height:{{ item.sourceHeight }}</div>
                 <div class="title-font-12">Port:{{ item.sourcePort | addfilter}}</div>
                 <div class="title-font-12">Time:{{ item.sourceTime }}</div>
@@ -126,6 +127,7 @@
                <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div>
                 <div class="title-font-12">Channel:{{ item.destinationchannel }}</div>
                 <div class="title-font-12">ClassID:{{ item.destinationClassID | addfilter}}</div>
+                 <div class="title-font-12">ClassPath:{{ item.destinationClassPath | addfilter }}</div>
                 <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
                 <div class="title-font-12">Port:{{ item.destinationPort | addfilter}}</div>
                 <div class="title-font-12">Time:{{ item.destinationTime }}</div>
@@ -238,7 +240,7 @@ export default {
 
     copyBtn(){
         var input = document.createElement("input");
-      input.value ='demon_id:'+this.analyzeinfo.classId+'path:'+this.analyzeinfo.sourcePort+'/'+this.analyzeinfo.sourceChannel + '->'+this.analyzeinfo.destinationchannel 
+      input.value =this.analyzeinfo.classPath
       document.body.appendChild(input);
       input.select();
       document.execCommand("copy");
@@ -566,6 +568,7 @@ img {
           color: #000000;
         }
         .result {
+      
           margin-top: 33px;
           font-family: Helvetica;
           font-size: 14px;
@@ -574,8 +577,11 @@ img {
           line-height: 15px;
           letter-spacing: 0px;
           color: #000000;
+     
         }
         .denomid {
+          width: 520px;
+          word-break: break-all;
           font-family: Helvetica;
           font-size: 14px;
           font-weight: normal;
