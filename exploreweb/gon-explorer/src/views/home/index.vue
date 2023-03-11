@@ -113,6 +113,7 @@
                 <div class="chainName">From</div>
                 <div class="chain-id mt-3 mb-3">{{ item.sourceChainId  }}</div>
                 <div class="title-font-12">Channel:{{ item.sourceChannel }}</div>
+				<div class="title-font-12">NftId:{{ item.tokenID}}</div>
                 <div class="title-font-12">ClassID:{{ item.sourceClassID | addfilter }}</div>
                  <div class="title-font-12">ClassPath:{{ item.sourceClassPath | addfilter }}</div>
                 <div class="title-font-12">Height:{{ item.sourceHeight }}</div>
@@ -126,6 +127,7 @@
                 <div class="chainName">To</div>
                <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div>
                 <div class="title-font-12">Channel:{{ item.destinationChannel }}</div>
+				<div class="title-font-12">NftId:{{ item.tokenID}}</div>
                 <div class="title-font-12">ClassID:{{ item.destinationClassID | addfilter}}</div>
                  <div class="title-font-12">ClassPath:{{ item.destinationClassPath | addfilter }}</div>
                 <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
