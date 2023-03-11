@@ -12,7 +12,7 @@
           <div
             style="border-radius: 4px; background-color: #1890ff; height: 40px; padding-left: 20px; padding-top: 10px; color: white;"
           >
-            {{ getMap(item.sourceChannel) }} -> {{ getMap(item.destinationchannel) }}
+            {{ getMap(item.sourceChannel) }} -> {{ getMap(item.destinationChannel) }}
           </div>
           <el-row>
             <el-col :span="12" style="padding: 20px;">
@@ -29,7 +29,7 @@
             <el-col :span="12" style="padding: 20px;">
               <div class="chainName">To</div>
               <!-- <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div> -->
-              <div class="title-font-12">Channel:{{ item.destinationchannel }}</div>
+              <div class="title-font-12">Channel:{{ item.destinationChannel }}</div>
               <div class="title-font-12">ClassID:{{ item.destinationClassID }}</div>
               <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
               <div class="title-font-12">Port:{{ item.destinationPort }}</div>
