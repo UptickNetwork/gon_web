@@ -25,6 +25,7 @@
               <div class="title-font-12">Time:{{ timestampToDate(item.sourceTime) }}</div>
               <div class="title-font-12">Txid:{{ item.sourceTxid }}</div>
               <div class="title-font-12">Sender:{{ item.sender }}</div>
+              <div class="title-font-12">nftID:{{item.tokenID}}</div>
             </el-col>
             <el-col :span="12" style="padding: 20px;">
               <div class="chainName">To</div>
@@ -36,6 +37,7 @@
               <div class="title-font-12">Time:{{ timestampToDate(item.destinationTime) }}</div>
               <div class="title-font-12">Txid:{{ item.destinationTxid }}</div>
               <div class="title-font-12">Receiver:{{ item.receiver }}</div>
+              <div class="title-font-12">nftID:{{item.tokenID}}</div>
             </el-col>
           </el-row>
         </div>

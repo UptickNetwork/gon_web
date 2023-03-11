@@ -21,22 +21,25 @@
               <!-- <div class="chain-id mt-3 mb-3">{{ item.sourceChainId  }}</div> -->
               <div class="title-font-12">Channel:{{ item.sourceChannel }}</div>
               <div class="title-font-12">ClassID:{{ item.sourceClassID }}</div>
+              <div class="title-font-12">ClassPath:{{ item.sourceClassPath }}</div>
               <div class="title-font-12">Height:{{ item.sourceHeight }}</div>
               <div class="title-font-12">Port:{{ item.sourcePort }}</div>
               <div class="title-font-12">Time:{{ timestampToDate(item.sourceTime) }}</div>
               <div class="title-font-12">Txid:{{ item.sourceTxid }}</div>
               <div class="title-font-12">Sender:{{ item.sender }}</div>
+              <div class="title-font-12">NFTid:{{ item.tokenID }}</div>
             </el-col>
             <el-col :span="12" style="padding: 20px;">
               <div class="chainName">To</div>
               <!-- <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div> -->
               <div class="title-font-12">Channel:{{ item.destinationChannel }}</div>
-              <div class="title-font-12">ClassID:{{ item.destinationClassID }}</div>
+              <div class="title-font-12">ClassID:{{ item.destinationClassID }}</div><div class="title-font-12">ClassPath:{{ item.destinationClassPath }}</div>
               <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
               <div class="title-font-12">Port:{{ item.destinationPort }}</div>
               <div class="title-font-12">Time:{{ timestampToDate(item.destinationTime) }}</div>
               <div class="title-font-12">Txid:{{ item.destinationTxid }}</div>
               <div class="title-font-12">Receiver:{{ item.receiver }}</div>
+              <div class="title-font-12">NFTid:{{ item.tokenID }}</div>
             </el-col>
           </el-row>
         </div>
