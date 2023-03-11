@@ -10,7 +10,7 @@ module.exports = defineConfig({
     https: false,
     proxy: {
       "/gonapi": {
-      target: "http://192.168.1.101:7097",
+      target: "http://13.213.149.227:7097",
       changeOrigin: true,
       secure: false,
       pathRewrite: {

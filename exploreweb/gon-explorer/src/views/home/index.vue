@@ -98,7 +98,7 @@
           <img  src="@/assets/image/image_jt_t.png" alt="" @click="listClicked(item,index1)" v-else>
           <div class="chainName ml-4">{{getMap(item.sourceChannel)}} </div>
           <img class="ml-3 img_jt" src="@/assets/image/image_jt.png" alt="" />
-          <div class="chainName ml-4">{{getMap(item.destinationchannel)}}</div>
+          <div class="chainName ml-4">{{getMap(item.destinationChannel)}}</div>
          
         </div>
         <div
@@ -125,7 +125,7 @@
               <div class="right">
                 <div class="chainName">To</div>
                <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div>
-                <div class="title-font-12">Channel:{{ item.destinationchannel }}</div>
+                <div class="title-font-12">Channel:{{ item.destinationChannel }}</div>
                 <div class="title-font-12">ClassID:{{ item.destinationClassID | addfilter}}</div>
                  <div class="title-font-12">ClassPath:{{ item.destinationClassPath | addfilter }}</div>
                 <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
@@ -222,7 +222,7 @@ export default {
         if (value && value.length > 40) {
           return value.substr(0, 15) + "..." + value.substr(-15);
         } else {
-          return "";
+          return value;
         }
       }
     },
