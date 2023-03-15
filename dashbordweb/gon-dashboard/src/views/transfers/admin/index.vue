@@ -174,6 +174,10 @@ export default {
         ['channel-206', 'Stargaze'],
         ['channel-209', 'Stargaze'],
         ['channel-210', 'Stargaze'],
+        ['channel-122', 'Juno'],
+        ['channel-120', 'Juno'],
+        ['channel-234', 'Stargaze'],
+        ['channel-230', 'Stargaze'],
         ['channel-89', 'Juno'],
         ['channel-90', 'Juno'],
         ['channel-93', 'Juno'],
@@ -247,12 +251,14 @@ export default {
   }
 
   .title-font-12 {
+    word-wrap: break-word; /* 允许单词内换行 */
+    word-break: break-all; /* 允许在任意字符处换行 */
     padding-top: 10px;
-    white-space: nowrap;
+    // white-space: nowrap;
     /* 禁止文本换行 */
-    overflow: hidden;
+    // overflow: hidden;
     /* 隐藏溢出部分 */
-    text-overflow: ellipsis;
+    // text-overflow: ellipsis;
     /* 在结尾处添加省略号 */
     margin-right: 20px;
     margin-top: 2px;

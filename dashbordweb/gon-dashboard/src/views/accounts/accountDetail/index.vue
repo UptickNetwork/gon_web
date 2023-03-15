@@ -25,7 +25,7 @@
               <div class="title-font-12">Time:{{ timestampToDate(item.sourceTime) }}</div>
               <div class="title-font-12">Txid:{{ item.sourceTxid }}</div>
               <div class="title-font-12">Sender:{{ item.sender }}</div>
-              <div class="title-font-12">nftID:{{item.tokenID}}</div>
+              <div class="title-font-12">nftID:{{ item.tokenID }}</div>
             </el-col>
             <el-col :span="12" style="padding: 20px;">
               <div class="chainName">To</div>
@@ -37,7 +37,7 @@
               <div class="title-font-12">Time:{{ timestampToDate(item.destinationTime) }}</div>
               <div class="title-font-12">Txid:{{ item.destinationTxid }}</div>
               <div class="title-font-12">Receiver:{{ item.receiver }}</div>
-              <div class="title-font-12">nftID:{{item.tokenID}}</div>
+              <div class="title-font-12">nftID:{{ item.tokenID }}</div>
             </el-col>
           </el-row>
         </div>
@@ -119,6 +119,10 @@ export default {
         ['channel-90', 'Juno'],
         ['channel-93', 'Juno'],
         ['channel-94', 'Juno'],
+        ['channel-122', 'Juno'],
+        ['channel-120', 'Juno'],
+        ['channel-234', 'Stargaze'],
+        ['channel-230', 'Stargaze'],
         ['channel-86', 'Juno'],
         ['channel-88', 'Juno'],
         ['channel-91', 'Juno'],
@@ -188,12 +192,11 @@ export default {
   }
 
   .title-font-12 {
+
+    word-wrap: break-word; /* 允许单词内换行 */
+    word-break: break-all; /* 允许在任意字符处换行 */
     padding-top: 10px;
-    white-space: nowrap;
-    /* 禁止文本换行 */
-    overflow: hidden;
-    /* 隐藏溢出部分 */
-    text-overflow: ellipsis;
+
     /* 在结尾处添加省略号 */
     margin-right: 20px;
     margin-top: 2px;
