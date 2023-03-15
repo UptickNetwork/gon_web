@@ -96,9 +96,9 @@
         <div class="title d-flex flex-row align-center mt-5">
           <img src="@/assets/image/image_jt_d.png" alt="" @click="listClicked(item,index1)" v-if="item.isShow" />
           <img  src="@/assets/image/image_jt_t.png" alt="" @click="listClicked(item,index1)" v-else>
-          <div class="chainName ml-4">{{getMap(item.sourceChannel)}} </div>
+          <div class="chainName ml-4">{{getMap(item.sourceChainId)}} </div>
           <img class="ml-3 img_jt" src="@/assets/image/image_jt.png" alt="" />
-          <div class="chainName ml-4">{{getMap(item.destinationChannel)}}</div>
+          <div class="chainName ml-4">{{getMap(item.destinationChainId)}}</div>
          
         </div>
         <div
@@ -321,48 +321,12 @@ export default {
     },
       initMap(){
        this.packageInfoMap = new Map([
-        ['channel-22', 'IRISnet'],
-        ['channel-23', 'IRISnet'],
-        ['channel-24', 'IRISnet'],
-        ['channel-25', 'IRISnet'],
-        ['channel-17', 'IRISnet'],
-        ['channel-19', 'IRISnet'],
-        ['channel-0', 'IRISnet'],
-        ['channel-1', 'IRISnet'],
-        ['channel-207', 'Stargaze'],
-        ['channel-208', 'Stargaze'],
-        ['channel-211', 'Stargaze'],
-        ['channel-213', 'Stargaze'],
-        ['channel-203', 'Stargaze'],
-        ['channel-206', 'Stargaze'],
-        ['channel-209', 'Stargaze'],
-        ['channel-210', 'Stargaze'],
-        ['channel-89', 'Juno'],
-        ['channel-90', 'Juno'],
-        ['channel-93', 'Juno'],
-        ['channel-94', 'Juno'],
-        ['channel-86', 'Juno'],
-        ['channel-88', 'Juno'],
-        ['channel-91', 'Juno'],
-        ['channel-92', 'Juno'],
-        ['channel-3', 'Uptick'],
-        ['channel-4', 'Uptick'],
-        ['channel-6', 'Uptick'],
-        ['channel-12', 'Uptick'],
-        ['channel-7', 'Uptick'],
-        ['channel-13', 'Uptick'],
-        ['channel-24', 'Omniflix'],
-        ['channel-25', 'Omniflix'],
-        ['channel-44', 'Omniflix'],
-        ['channel-45', 'Omniflix'],
-        ['channel-46', 'Omniflix'],
-        ['channel-47', 'Omniflix'],
-        ['channel-41', 'Omniflix'],
-        ['channel-42', 'Omniflix'],
-        ['channel-122', 'Juno'],
-        ['channel-120', 'Juno'],
-        ['channel-234', 'Stargaze'],
-        ['channel-230', 'Stargaze'],
+        ['gon-irishub-1', 'IRISnet'],
+        ['elgafar-1', 'Stargaze'],
+        ['uni-6', 'Juno'],
+        ['uptick_7000-2', 'Uptick'],
+        ['gon-flixnet-1', 'OmniFlix'],
+      
     ]);
 
     },
