@@ -108,19 +108,19 @@
             class="baseInfo d-flex flex-column"
             v-if="item.isShow"
           >  
-            <div class=" d-flex flex-row " style=" background-color: rgb(255, 255, 255, 0.2);height: 260px;">
+            <div class=" d-flex flex-row " style=" background-color: rgb(255, 255, 255, 0.2);min-height: 260px;">
                <div class="left">
                 <div class="chainName">From</div>
                 <div class="chain-id mt-3 mb-3">{{ item.sourceChainId  }}</div>
                 <div class="title-font-12">Channel:{{ item.sourceChannel }}</div>
-				<div class="title-font-12">NftId:{{ item.tokenID}}</div>
-                <div class="title-font-12">ClassID:{{ item.sourceClassID | addfilter }}</div>
-                 <div class="title-font-12">ClassPath:{{ item.sourceClassPath | addfilter }}</div>
+				        <div class="title-font-12">NftId:{{ item.tokenID}}</div>
+                <div class="title-font-12">ClassID:{{ item.sourceClassID  }}</div>
+                 <div class="title-font-12">ClassPath:{{ item.sourceClassPath  }}</div>
                 <div class="title-font-12">Height:{{ item.sourceHeight }}</div>
-                <div class="title-font-12">Port:{{ item.sourcePort | addfilter}}</div>
+                <div class="title-font-12">Port:{{ item.sourcePort }}</div>
                 <div class="title-font-12">Time:{{ item.sourceTime }}</div>
-                <div class="title-font-12">Txid:{{ item.sourceTxid | addfilter}}</div>
-                <div class="title-font-12">Sender:{{ item.sender | addfilter}}</div>
+                <div class="title-font-12">Txid:{{ item.sourceTxid }}</div>
+                <div class="title-font-12">Sender:{{ item.sender }}</div>
                 
               </div>
               <div class="right">
@@ -128,13 +128,13 @@
                <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div>
                 <div class="title-font-12">Channel:{{ item.destinationChannel }}</div>
 				<div class="title-font-12">NftId:{{ item.tokenID}}</div>
-                <div class="title-font-12">ClassID:{{ item.destinationClassID | addfilter}}</div>
-                 <div class="title-font-12">ClassPath:{{ item.destinationClassPath | addfilter }}</div>
+                <div class="title-font-12">ClassID:{{ item.destinationClassID }}</div>
+                 <div class="title-font-12">ClassPath:{{ item.destinationClassPath  }}</div>
                 <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
-                <div class="title-font-12">Port:{{ item.destinationPort | addfilter}}</div>
+                <div class="title-font-12">Port:{{ item.destinationPort }}</div>
                 <div class="title-font-12">Time:{{ item.destinationTime }}</div>
-                <div class="title-font-12">Txid:{{ item.destinationTxid | addfilter}}</div>
-                 <div class="title-font-12">Receiver:{{ item.receiver | addfilter}}</div>
+                <div class="title-font-12">Txid:{{ item.destinationTxid }}</div>
+                 <div class="title-font-12">Receiver:{{ item.receiver }}</div>
               </div>
             </div>
       
@@ -359,6 +359,10 @@ export default {
         ['channel-47', 'Omniflix'],
         ['channel-41', 'Omniflix'],
         ['channel-42', 'Omniflix'],
+        ['channel-122', 'Juno'],
+        ['channel-120', 'Juno'],
+        ['channel-234', 'Stargaze'],
+        ['channel-230', 'Stargaze'],
     ]);
 
     },
@@ -383,6 +387,7 @@ export default {
     font-size: 20px;
  }
 .title-font-12 {
+  width: 340px;
   margin-top: 2px;
   font-family: Helvetica;
   font-size: 12px;
@@ -390,6 +395,7 @@ export default {
   font-stretch: normal;
   letter-spacing: 1px;
   color: #ffffff;
+  word-break: break-all;
 }
 .chain-id {
   height: 10px;
