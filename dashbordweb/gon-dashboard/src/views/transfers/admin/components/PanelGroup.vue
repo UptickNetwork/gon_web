@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="20" class="panel-group">
-    <el-col v-for="(item, index) in lineChartData" :key="index" :xs="8" :sm="8" :lg="8" class="card-panel-col">
+    <el-col v-for="(item, index) in lineChartData" :key="index" :xs="12" :sm="12" :lg="12" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData(item.key,item.name)">
         <div v-if="item.name !== ''" class="card-panel-description">
           <div class="card-panel-text">
@@ -37,10 +37,10 @@ export default {
         key: 'accounts',
         name: 'Accounts'
       },
-      {
-        key: 'tokenIds',
-        name: 'Number of NFTs'
-      },
+      // {
+      //   key: 'tokenIds',
+      //   name: 'Number of NFTs'
+      // },
       {
         key: 'transactions',
         name: 'Cross-chain transfers'
