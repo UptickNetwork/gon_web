@@ -368,7 +368,7 @@ export default {
 }
 
 input[class="txInput"] {
-  width: 300px;
+  width: 500px;
   height: 36px;
   background-color: #ffffff;
   border-radius: 5px;
@@ -408,7 +408,7 @@ img {
     // border: 1px solid red;
     .search {
       .left {
-        width: 500px;
+        width: 800px;
         position: relative;
         .choose {
           width: 109px;

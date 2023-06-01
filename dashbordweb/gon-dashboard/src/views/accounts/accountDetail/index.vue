@@ -210,7 +210,7 @@ export default {
   }
 
   input[class="txInput"] {
-    width: 300px;
+    width: 500px;
     height: 36px;
     background-color: #ffffff;
     border-radius: 5px;
