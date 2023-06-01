@@ -190,21 +190,10 @@ export default {
         value: 1,
       },
       {
-        text: "uptick_7000-2",
+        text: "uptick_1170-1",
         value: 2,
       },
-      {
-        text: "elgafar-1",
-        value: 3,
-      },
-      {
-        text: "uni-6",
-        value: 4,
-      },
-      {
-        text: "osmo-test-4",
-        value: 5,
-      },
+
     ],
     analyzeinfo:'',
     chainListInfo:[],
@@ -322,10 +311,8 @@ export default {
       initMap(){
        this.packageInfoMap = new Map([
         ['gon-irishub-1', 'IRISnet'],
-        ['elgafar-1', 'Stargaze'],
-        ['uni-6', 'Juno'],
-        ['uptick_7000-2', 'Uptick'],
-        ['gon-flixnet-1', 'OmniFlix'],
+        ['uptick_1170-1', 'Uptick Origin']
+
       
     ]);
 
