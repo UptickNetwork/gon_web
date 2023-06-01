@@ -35,32 +35,7 @@
           </div>
         </div>
         <div class="right d-flex flex-row align-center">
-          <div class="txid">{{ chainList[chainIndex].text }}</div>
-          <img
-            class="ml-2"
-            src="@/assets/image/image_jt_t.png"
-            alt=""
-            @click="chainClicked"
-            v-if="isShowChain"
-          />
-          <img
-            class="ml-2"
-            src="@/assets/image/image_jt_d.png"
-            alt=""
-            @click="chainClicked"
-            v-else
-          />
-          <div class="chainInfo" v-if="isShowChain">
-            <div
-              v-for="(item, index) in chainList"
-              :key="index"
-              @click="chainClick(index)"
-            >
-              <div class="font-14 mt-3 ml-2" style="cursor: pointer">
-                {{ item.text }}
-              </div>
-            </div>
-          </div>
+        
           <button class="btn" @click="search">Search </button>
         </div>
       </div>
@@ -118,7 +93,7 @@
                  <div class="title-font-12">ClassPath:{{ item.sourceClassPath  }}</div>
                 <div class="title-font-12">Height:{{ item.sourceHeight }}</div>
                 <div class="title-font-12">Port:{{ item.sourcePort }}</div>
-                <div class="title-font-12">Time:{{ item.sourceTime }}</div>
+                <div class="title-font-12">Time: {{ timestampToDateTime(item.sourceTime) }}</div>
                 <div class="title-font-12">Txid:{{ item.sourceTxid }}</div>
                 <div class="title-font-12">Sender:{{ item.sender }}</div>
                 
@@ -127,12 +102,12 @@
                 <div class="chainName">To</div>
                <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div>
                 <div class="title-font-12">Channel:{{ item.destinationChannel }}</div>
-				<div class="title-font-12">NftId:{{ item.tokenID}}</div>
+			        	<div class="title-font-12">NftId:{{ item.tokenID}}</div>
                 <div class="title-font-12">ClassID:{{ item.destinationClassID }}</div>
                  <div class="title-font-12">ClassPath:{{ item.destinationClassPath  }}</div>
                 <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
                 <div class="title-font-12">Port:{{ item.destinationPort }}</div>
-                <div class="title-font-12">Time:{{ item.destinationTime }}</div>
+                <div class="title-font-12">Time: {{timestampToDateTime(item.destinationTime)  }}</div>
                 <div class="title-font-12">Txid:{{ item.destinationTxid }}</div>
                  <div class="title-font-12">Receiver:{{ item.receiver }}</div>
               </div>
@@ -272,6 +247,17 @@ export default {
        this.$forceUpdate();
      
     },
+  timestampToDateTime(time) {
+	let date = new Date(time)
+	let Y = date.getFullYear() + '-';
+	let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+	let D = (date.getDate() < 10 ? '0'+date.getDate() : date.getDate()) + ' ';
+	let h = (date.getHours() < 10 ? '0'+date.getHours() : date.getHours()) + ':';
+	let m = (date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()) + ':';
+	let s = (date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds());
+	let strDate = Y+M+D+h+m+s;
+	return strDate;
+},
     getHeight() {
       this.height = document.body.clientHeight - 240;
       var div = document.querySelector(".totalList");
