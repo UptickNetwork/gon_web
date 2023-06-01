@@ -96,9 +96,9 @@
         <div class="title d-flex flex-row align-center mt-5">
           <img src="@/assets/image/image_jt_d.png" alt="" @click="listClicked(item,index1)" v-if="item.isShow" />
           <img  src="@/assets/image/image_jt_t.png" alt="" @click="listClicked(item,index1)" v-else>
-          <div class="chainName ml-4">{{getMap(item.sourceChannel)}} </div>
+          <div class="chainName ml-4">{{getMap(item.sourceChainId)}} </div>
           <img class="ml-3 img_jt" src="@/assets/image/image_jt.png" alt="" />
-          <div class="chainName ml-4">{{getMap(item.destinationChannel)}}</div>
+          <div class="chainName ml-4">{{getMap(item.destinationChainId)}}</div>
          
         </div>
         <div
@@ -108,19 +108,19 @@
             class="baseInfo d-flex flex-column"
             v-if="item.isShow"
           >  
-            <div class=" d-flex flex-row " style=" background-color: rgb(255, 255, 255, 0.2);height: 260px;">
+            <div class=" d-flex flex-row " style=" background-color: rgb(255, 255, 255, 0.2);min-height: 260px;">
                <div class="left">
                 <div class="chainName">From</div>
                 <div class="chain-id mt-3 mb-3">{{ item.sourceChainId  }}</div>
                 <div class="title-font-12">Channel:{{ item.sourceChannel }}</div>
-				<div class="title-font-12">NftId:{{ item.tokenID}}</div>
-                <div class="title-font-12">ClassID:{{ item.sourceClassID | addfilter }}</div>
-                 <div class="title-font-12">ClassPath:{{ item.sourceClassPath | addfilter }}</div>
+				        <div class="title-font-12">NftId:{{ item.tokenID}}</div>
+                <div class="title-font-12">ClassID:{{ item.sourceClassID  }}</div>
+                 <div class="title-font-12">ClassPath:{{ item.sourceClassPath  }}</div>
                 <div class="title-font-12">Height:{{ item.sourceHeight }}</div>
-                <div class="title-font-12">Port:{{ item.sourcePort | addfilter}}</div>
+                <div class="title-font-12">Port:{{ item.sourcePort }}</div>
                 <div class="title-font-12">Time:{{ item.sourceTime }}</div>
-                <div class="title-font-12">Txid:{{ item.sourceTxid | addfilter}}</div>
-                <div class="title-font-12">Sender:{{ item.sender | addfilter}}</div>
+                <div class="title-font-12">Txid:{{ item.sourceTxid }}</div>
+                <div class="title-font-12">Sender:{{ item.sender }}</div>
                 
               </div>
               <div class="right">
@@ -128,13 +128,13 @@
                <div class="chain-id mt-3 mb-3">{{ item.destinationChainId }}</div>
                 <div class="title-font-12">Channel:{{ item.destinationChannel }}</div>
 				<div class="title-font-12">NftId:{{ item.tokenID}}</div>
-                <div class="title-font-12">ClassID:{{ item.destinationClassID | addfilter}}</div>
-                 <div class="title-font-12">ClassPath:{{ item.destinationClassPath | addfilter }}</div>
+                <div class="title-font-12">ClassID:{{ item.destinationClassID }}</div>
+                 <div class="title-font-12">ClassPath:{{ item.destinationClassPath  }}</div>
                 <div class="title-font-12">Height:{{ item.destinationHeight }}</div>
-                <div class="title-font-12">Port:{{ item.destinationPort | addfilter}}</div>
+                <div class="title-font-12">Port:{{ item.destinationPort }}</div>
                 <div class="title-font-12">Time:{{ item.destinationTime }}</div>
-                <div class="title-font-12">Txid:{{ item.destinationTxid | addfilter}}</div>
-                 <div class="title-font-12">Receiver:{{ item.receiver | addfilter}}</div>
+                <div class="title-font-12">Txid:{{ item.destinationTxid }}</div>
+                 <div class="title-font-12">Receiver:{{ item.receiver }}</div>
               </div>
             </div>
       
@@ -321,44 +321,12 @@ export default {
     },
       initMap(){
        this.packageInfoMap = new Map([
-        ['channel-22', 'IRISnet'],
-        ['channel-23', 'IRISnet'],
-        ['channel-24', 'IRISnet'],
-        ['channel-25', 'IRISnet'],
-        ['channel-17', 'IRISnet'],
-        ['channel-19', 'IRISnet'],
-        ['channel-0', 'IRISnet'],
-        ['channel-1', 'IRISnet'],
-        ['channel-207', 'Stargaze'],
-        ['channel-208', 'Stargaze'],
-        ['channel-211', 'Stargaze'],
-        ['channel-213', 'Stargaze'],
-        ['channel-203', 'Stargaze'],
-        ['channel-206', 'Stargaze'],
-        ['channel-209', 'Stargaze'],
-        ['channel-210', 'Stargaze'],
-        ['channel-89', 'Juno'],
-        ['channel-90', 'Juno'],
-        ['channel-93', 'Juno'],
-        ['channel-94', 'Juno'],
-        ['channel-86', 'Juno'],
-        ['channel-88', 'Juno'],
-        ['channel-91', 'Juno'],
-        ['channel-92', 'Juno'],
-        ['channel-3', 'Uptick'],
-        ['channel-4', 'Uptick'],
-        ['channel-6', 'Uptick'],
-        ['channel-12', 'Uptick'],
-        ['channel-7', 'Uptick'],
-        ['channel-13', 'Uptick'],
-        ['channel-24', 'Omniflix'],
-        ['channel-25', 'Omniflix'],
-        ['channel-44', 'Omniflix'],
-        ['channel-45', 'Omniflix'],
-        ['channel-46', 'Omniflix'],
-        ['channel-47', 'Omniflix'],
-        ['channel-41', 'Omniflix'],
-        ['channel-42', 'Omniflix'],
+        ['gon-irishub-1', 'IRISnet'],
+        ['elgafar-1', 'Stargaze'],
+        ['uni-6', 'Juno'],
+        ['uptick_7000-2', 'Uptick'],
+        ['gon-flixnet-1', 'OmniFlix'],
+      
     ]);
 
     },
@@ -383,6 +351,7 @@ export default {
     font-size: 20px;
  }
 .title-font-12 {
+  width: 340px;
   margin-top: 2px;
   font-family: Helvetica;
   font-size: 12px;
@@ -390,6 +359,7 @@ export default {
   font-stretch: normal;
   letter-spacing: 1px;
   color: #ffffff;
+  word-break: break-all;
 }
 .chain-id {
   height: 10px;
