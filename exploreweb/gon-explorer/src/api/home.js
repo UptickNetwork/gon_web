@@ -18,6 +18,12 @@ export function getInfoByAddress(params) {
         transObjToParamStr(params)
     )
 }
+
+export function getInfoByNFTID(params) {
+    return service.post('/gonapi/dashborad/ibcTransactionList', 
+        transObjToParamStr(params)
+    )
+}
 function transObjToParamStr(object) {
    
 let arr=[]
