@@ -150,12 +150,28 @@ export default {
 
   }),
   mounted() {
+
     this.getHeight();
     window.onresize = () => {
       this.getHeight();
     };
 
     this.initMap();
+
+    const queryString = window.location.search;
+    console.log(queryString) // 输出 123
+    const params = new URLSearchParams(queryString);
+    console.log(params) // 输出 123
+    // 读取参数值
+    const paramValue = params.get('NFTID');
+    if (paramValue) {
+      // this.isShowTx = false;
+      this.inputValue = paramValue
+      this.txClick(2)
+      this.search()
+    }
+    console.log(paramValue) // 输出 123
+
   },
   filters: {
     addfilter: function (value) {
@@ -205,7 +221,7 @@ export default {
           search: this.inputValue
         }
         result = await getInfoByNFTID(params);
-        
+
       } else {
         params = {
           chainId: this.chainList[this.chainIndex].text,
