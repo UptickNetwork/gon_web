@@ -163,16 +163,25 @@ export default {
     const params = new URLSearchParams(queryString);
     console.log(params) // 输出 123
     // 读取参数值
-    const paramValue = params.get('NFTID');
-    if (paramValue) {
+    const nftIdValue = params.get('NFTID');
+    if (nftIdValue) {
       // this.isShowTx = false;
-      this.inputValue = paramValue
+      this.inputValue = nftIdValue
       this.txClick(2)
       this.search()
+      console.log(nftIdValue) 
     }
-    console.log(paramValue) // 输出 123
 
+    const addressValue = params.get('address');
+    if (addressValue) {
+      // this.isShowTx = false;
+      this.inputValue = addressValue
+      this.txClick(1)
+      this.search()
+      console.log(addressValue) 
+    }
   },
+  
   filters: {
     addfilter: function (value) {
       if (value && value.length > 40) {
